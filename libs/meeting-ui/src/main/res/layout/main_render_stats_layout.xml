@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="info"
+            type="io.agora.meeting.context.bean.RenderInfo" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#88000000"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Stats Info"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/global_text_color_white"
+                android:textSize="@dimen/global_text_size_small" />
+
+
+            <TableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--------render info--------"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="UserName"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{info.userInfo.userName}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="StreamId"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{info.streamId}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="hasVideo"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.hasVideo)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="hasAudio"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.hasAudio)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+            </TableLayout>
+
+            <TableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:isGone="@{!info.me || !info.hasVideo}">
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--------video sent--------"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="sentVideoBitrate"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.sentVideoBitrate)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="sentFrameRate"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.sentFrameRate)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="targetBitrate"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.targetBitrate)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="encodedBitrate"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.encodedBitrate)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="encodedFrameWidth"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.encodedFrameWidth)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="encodedFrameHeight"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.encodedFrameHeight)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="encodedFrameCount"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.encodedFrameCount)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="codecType"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.codecType)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+
+            </TableLayout>
+
+
+            <TableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:isGone="@{!info.me || !info.hasAudio}">
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--------audio sent--------"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="sentNumChannels"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.sentNumChannels)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="sentSampleRate"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.sentSampleRate)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="sentAudioBitrate"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.sentAudioBitrate)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+            </TableLayout>
+
+
+            <TableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:isGone="@{info.me || !info.hasVideo}">
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--------video recv--------"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="delay"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.delay)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="receivedWidth"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.receivedWidth)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="receivedHeight"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.receivedHeight)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="receivedVideoBitrate"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.receivedVideoBitrate)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="decoderOutputFrameRate"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.decoderOutputFrameRate)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="rendererOutputFrameRate"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.rendererOutputFrameRate)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="packetLossRate"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.packetLossRate)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="rxStreamType"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.rxStreamType)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="videoTotalFrozenTime"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.videoTotalFrozenTime)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="videoFrozenRate"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.videoFrozenRate)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+            </TableLayout>
+
+            <TableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:isGone="@{info.me || !info.hasAudio}">
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--------audio recv--------"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="quality"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.quality)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="networkTransportDelay"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.networkTransportDelay)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="jitterBufferDelay"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.jitterBufferDelay)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="audioLossRate"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.audioLossRate)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="receivedNumChannels"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.receivedNumChannels)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="receivedSampleRate"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.receivedSampleRate)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="receivedAudioBitrate"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.receivedAudioBitrate)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="audioTotalFrozenTime"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.audioTotalFrozenTime)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+                <TableRow tools:ignore="UselessParent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="audioFrozenRate"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(info.statsInfo.audioFrozenRate)}"
+                        android:textColor="@color/global_text_color_white"
+                        android:textSize="@dimen/global_text_size_small"
+                        tools:text="11111" />
+                </TableRow>
+
+            </TableLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

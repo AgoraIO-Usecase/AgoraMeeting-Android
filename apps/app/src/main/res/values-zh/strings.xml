@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- About -->
+    <string name="about_title">关于</string>
+    <string name="about_check_upgrade">检查更新</string>
+    <string name="about_register_account">注册声网账号</string>
+    <string name="about_view_document">查看文档</string>
+    <string name="about_version_tips">已是最新版本，当前版本 V%1$s</string>
+    <string name="about_new_version_tips">不是最新版本，当前版本 V%1$s</string>
+    <string name="about_version_tips_all">版本号：V%1$s， 发版时间：%2$s\nRTC SDK版本号：V%3$s， RTM SDK版本号：V%4$s\n白板版本号：V%5$s</string>
+    <string name="about_upgrade_title">Agora Meeting 有了新版本</string>
+    <string name="about_upgrade">立刻升级</string>
+    <string name="about_later">稍后</string>
+    <string name="about_agreement">用户协议</string>
+    <string name="about_product_disclaimer">免责声明</string>
+    <string name="about_policy">隐私政策</string>
+    <string name="about_teams">服务条款</string>
+
+    <!-- 评分 -->
+    <string name="rating_title">评分</string>
+    <string name="rating_call_quality">音视频质量</string>
+    <string name="rating_function_completeness">功能完整性</string>
+    <string name="rating_general_experience">使用体验</string>
+    <string name="rating_comment">撰写评论</string>
+    <string name="rating_comment_hint">分享您的体验心得</string>
+    <string name="rating_start">%d星</string>
+
+</resources>

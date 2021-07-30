@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="650dp"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginTop="80dp"
+                android:src="@drawable/ic_logo_large"/>
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textColor="@color/global_text_color_black"
+                android:textSize="@dimen/global_text_size_large"/>
+
+
+
+            <TextView
+                android:id="@+id/tv_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:lineSpacingExtra="2dp"
+                android:textColor="@color/global_text_color_gray"
+                android:textSize="@dimen/global_text_size_small"
+                tools:text="版本号:v2.0.0.1,发版时间: 2020.10.12\n视频SDK版本:Ver 2.0.1.1, RTMSDK版本: 2020.10.12\n白板SDK版本: Ver3.0.1.1" />
+
+
+            <Button
+                android:id="@+id/btn_register"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_btn_blue"
+                android:text="@string/about_register_account"
+                android:textColor="@color/global_text_color_white"
+                android:textSize="@dimen/global_text_size_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_tips" />
+
+            <Button
+                android:id="@+id/btn_document"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_btn_blue_revert"
+                android:text="@string/about_view_document"
+                android:textColor="@color/global_accent"
+                android:textSize="@dimen/global_text_size_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_register" />
+
+            <Button
+                android:id="@+id/btn_update"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_btn_blue"
+                android:text="@string/about_check_upgrade"
+                android:textColor="@color/global_text_color_white"
+                android:textSize="@dimen/global_text_size_small"
+                android:visibility="gone"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_product_disclaimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about_product_disclaimer"
+                    android:textColor="@color/global_text_color_black"
+                    android:textSize="@dimen/global_text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_policy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13dp"
+                    android:text="@string/about_policy"
+                    android:textColor="@color/global_text_color_black"
+                    android:textSize="@dimen/global_text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_teams"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13dp"
+                    android:text="@string/about_teams"
+                    android:textColor="@color/global_text_color_black"
+                    android:textSize="@dimen/global_text_size_small" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_copyright"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="45dp"
+                android:text="@string/copyright_agora"
+                android:textColor="@color/global_text_color_gray"
+                android:textSize="@dimen/global_text_size_small"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</layout>

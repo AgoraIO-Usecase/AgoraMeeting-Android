@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.agora.meeting.ui.module.main.top.MainTopVM" />
+
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_bg"
+        android:minHeight="?attr/actionBarSize"
+        android:paddingHorizontal="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/audio_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:background="@null"
+                android:onClick="@{()->viewModel.switchMic()}"
+                android:paddingEnd="4dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_speaker_on" />
+
+            <ImageButton
+                android:id="@+id/camera_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:onClick="@{()->viewModel.switchCamera()}"
+                android:paddingStart="4dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_camera" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/title_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:onClick="@{()-> viewModel.copyRoomInfo()}"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/top_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="middle"
+                android:gravity="center"
+                android:maxWidth="150dp"
+                android:singleLine="true"
+                android:text="@{viewModel.roomName}"
+                android:textColor="@color/global_text_color_white"
+                android:textSize="@dimen/global_text_size_large"
+                tools:text="AVCUX710" />
+
+            <TextView
+                android:id="@+id/top_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.roomCountDownText}"
+                android:textColor="@color/global_text_color_gray"
+                android:textSize="@dimen/global_text_size_middle"
+                tools:text="00:23:45" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:background="@null"
+            android:onClick="@{()->viewModel.clickLeave()}"
+            android:paddingVertical="8dp"
+            android:text="@string/main_exit"
+            android:textColor="#ff5f51"
+            android:textSize="@dimen/global_text_size_large" />
+
+    </FrameLayout>
+</layout>

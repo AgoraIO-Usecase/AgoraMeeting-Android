@@ -1,0 +1,76 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+def safeExtGet(prop, key, fallback) {
+    if (rootProject.ext.has(prop)) {
+        def map = rootProject.ext.get(prop)
+        if (map.containsKey(key)) {
+            return map.get(key)
+        }
+    }
+    return fallback
+}
+
+// add the maven publish script if existed
+def maven_gradle_path = "${rootDir.absolutePath}/../products/script/maven.gradle"
+if (new File(maven_gradle_path).exists()) {
+    apply from: maven_gradle_path
+}
+
+// special the version using when publishing to maven
+// the group name is defined in setting.gradle
+project.group="io.github.agoraio-usecase.meeting"
+project.version="${safeExtGet('meeting', 'versionName', '1.0.0')}"
+project.description = "AgoraMeetingSdk"
+project.ext.url = "https://bitbucket.agoralab.co/projects/ADUC/repos/cloudmeeting-android/browse/AgoraMeeting_Android"
+
+
+android {
+    compileSdkVersion safeExtGet('android', 'compileSdkVersion', 29)
+    buildToolsVersion safeExtGet('android', 'buildToolsVersion', '29.0.3')
+
+    defaultConfig {
+        minSdkVersion safeExtGet('android', 'minSdkVersion', 19)
+        targetSdkVersion safeExtGet('android', 'minSdkVersion', 29)
+        versionCode safeExtGet('meeting', 'versionCode', 1)
+        versionName safeExtGet('meeting', 'versionName', '1.0.0')
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs 'src/main/java','src/main/kotlin'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions { jvmTarget = 1.8 }
+}
+
+dependencies {
+    // Meeting Basic Component
+    api project(':meeting-ui')
+    api "io.github.agoraio-usecase.meeting:meeting-context:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:meeting-context']}"
+    implementation "io.github.agoraio-usecase.meeting:meeting-core:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:meeting-core']}"
+
+    // Kotlin basic dependencies
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${safeExtGet('dependencies', 'org.jetbrains.kotlin:kotlin-stdlib', '1.4.21')}"
+    implementation "androidx.core:core-ktx:${safeExtGet('dependencies', 'androidx.core:core-ktx', '1.3.2')}"
+
+    // Test FrameWork
+    testImplementation "junit:junit:${safeExtGet('dependencies', 'junit:junit', '4.13.1')}"
+    androidTestImplementation "androidx.test.ext:junit:${safeExtGet('dependencies', 'androidx.test.ext:junit', '1.1.1')}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${safeExtGet('dependencies', 'androidx.test.espresso:espresso-core', '3.2.0')}"
+}

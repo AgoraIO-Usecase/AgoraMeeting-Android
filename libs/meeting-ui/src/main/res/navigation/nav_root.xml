@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_root"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="io.agora.meeting.ui.framework.MainFragment"
+        tools:layout="@layout/main_fragment">
+
+        <argument
+            android:name="statsDisplayEnable"
+            app:argType="boolean"/>
+
+        <action
+            android:id="@+id/action_to_messageFragment"
+            app:destination="@id/messageFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_to_usersFragment"
+            app:destination="@id/usersFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_to_settingFragment"
+            app:destination="@id/settingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_to_boardFragment"
+            app:destination="@+id/boardFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="io.agora.meeting.ui.framework.UsersFragment"
+        tools:layout="@layout/users_fragment"/>
+
+
+    <fragment
+        android:id="@+id/boardFragment"
+        android:name="io.agora.meeting.ui.framework.BoardFragment"
+        tools:layout="@layout/board_fragment"/>
+
+    <fragment
+        android:id="@+id/messageFragment"
+        android:name="io.agora.meeting.ui.framework.MessageFragment"
+        tools:layout="@layout/message_fragment" >
+        <action
+            android:id="@+id/action_to_settingFragment"
+            app:destination="@id/settingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="io.agora.meeting.ui.framework.SettingFragment"
+        tools:layout="@layout/setting_layout"/>
+
+    <fragment
+        android:id="@+id/simpleWebFragment"
+        android:name="io.agora.meeting.ui.framework.SimpleWebFragment"
+        tools:layout="@layout/web_simple_fragment">
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
+
+
+
+
+</navigation>

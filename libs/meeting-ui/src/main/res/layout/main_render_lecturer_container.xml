@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragment.SpeakerVideoFragment">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.agora.meeting.ui.module.main.render.lecturer.LecturerLayoutVM" />
+
+        <variable
+            name="speaker"
+            type="io.agora.meeting.context.bean.RenderInfo" />
+
+        <import type="io.agora.meeting.context.bean.RenderInfoType" />
+
+        <import type="io.agora.meeting.context.bean.UserRole" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_render_bg">
+
+        <FrameLayout
+            android:id="@+id/fl_video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"/>
+
+
+
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            app:isGone="@{speaker.hasVideo}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_tiled_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:paddingHorizontal="15dp"
+            android:paddingTop="15dp"
+            android:src="@drawable/ic_tiled"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tv_enter_whiteboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/bg_btn_blue"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="@string/whiteboard_enter"
+            android:textColor="@android:color/white"
+            app:isGone="@{speaker.type != RenderInfoType.Board}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_tiled_switch" />
+
+        <TextView
+            android:id="@+id/tv_stop_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/bg_btn_red"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="@string/more_close_screen"
+            android:textColor="@android:color/white"
+            app:isGone="@{speaker.type != RenderInfoType.ScreenSharing || !speaker.me}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_tiled_switch" />
+
+        <LinearLayout
+            android:id="@+id/ll_lecturer_info"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_speaker_tag"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="3dp"
+            app:isGone="@{speaker == null}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_host"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_round_host"
+                app:isGone="@{speaker.userInfo.userRole != UserRole.host}" />
+
+            <ImageView
+                android:id="@+id/iv_share"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_round_share"
+                app:isGone="@{speaker.type == RenderInfoType.Media}" />
+
+            <ImageView
+                android:id="@+id/iv_mic"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/sel_round_mic"
+                app:activated="@{speaker.hasAudio}" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxWidth="60dp"
+                android:paddingEnd="3dp"
+                android:singleLine="true"
+                android:text="@{speaker.userInfo.userName}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/global_text_size_small"
+                tools:text="111111111111111111111111111111111111111" />
+
+        </LinearLayout>
+
+        <io.agora.meeting.ui.widget.TouchRecyclerView
+            android:id="@+id/list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/stats_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="50dp"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+

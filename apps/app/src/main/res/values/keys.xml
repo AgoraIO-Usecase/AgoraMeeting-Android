@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="key_about" translatable="false">about</string>
+    <string name="key_show_privacy_terms" translatable="false">show_privacy_terms</string>
+
+</resources>

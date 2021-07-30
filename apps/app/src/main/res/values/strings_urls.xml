@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="document_url" translatable="false">https://docs.agora.io/%1$s/agora-meeting/agora_meeting_overview</string>
+    <string name="proxy_url" translatable="false">https://www.agora.io/%1$s/privacy-policy/</string>
+    <string name="teams_url" translatable="false">https://www.agora.io/%1$s/terms-of-service/</string>
+    <string name="sign_up_url" translatable="false">https://sso.agora.io/%1$s/signup</string>
+
+</resources>

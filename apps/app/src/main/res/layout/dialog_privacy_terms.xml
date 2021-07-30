@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingHorizontal="8dp"
+    android:paddingTop="8dp">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            tools:ignore="WebViewLayout" />
+
+    </ScrollView>
+
+    <CheckBox
+        android:id="@+id/termsCheck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="8dp"
+        android:checked="false"
+        android:nextFocusUp="@id/content"
+        android:text="@string/agree_the_terms"
+        android:textColor="@color/global_text_color_black"
+        android:textSize="@dimen/global_text_size_small" />
+</LinearLayout>

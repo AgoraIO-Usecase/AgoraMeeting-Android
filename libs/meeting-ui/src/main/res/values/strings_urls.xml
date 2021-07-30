@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="web_url" translatable="false">https://solutions.agora.io/meeting/web</string>
+    <string name="android_url" translatable="false">https://download.agora.io/demo/release/app-AgoraMeeting.apk</string>
+    <string name="ios_url" translatable="false">https://www.pgyer.com/EUWO</string>
+    <string name="download_url" translatable="false">https://docs.agora.io/%1$s/All/downloads?platform=Android</string>
+
+</resources>

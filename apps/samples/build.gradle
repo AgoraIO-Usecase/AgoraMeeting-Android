@@ -1,0 +1,101 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "androidx.navigation.safeargs"
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    viewBinding {
+        enabled = true
+    }
+    dataBinding {
+        enabled = true
+    }
+    androidExtensions {
+        experimental = true
+    }
+
+    defaultConfig {
+        applicationId "io.agora.meeting.sample"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.meeting.versionCode
+        versionName rootProject.ext.meeting.versionName
+
+        vectorDrawables.useSupportLibrary = true
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'x86'
+        }
+    }
+
+    signingConfigs {
+        release {
+            def prpe = new Properties()
+            def input = project.rootProject.file('local.properties').newInputStream();
+            prpe.load(input)
+            storeFile prpe.getProperty('sign.store.file') == null ? signingConfigs.debug.storeFile : new File(prpe.getProperty('sign.store.file'))
+            storePassword prpe.getProperty('sign.store.password') == null ? signingConfigs.debug.storePassword : prpe.getProperty('sign.store.password')
+            keyAlias prpe.getProperty('sign.alias') == null ? signingConfigs.debug.keyAlias : prpe.getProperty('sign.alias')
+            keyPassword prpe.getProperty('sign.alias.password') == null ? signingConfigs.debug.keyPassword : prpe.getProperty('sign.alias.password')
+        }
+    }
+
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs 'src/main/java','src/main/kotlin'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Meeting Component
+    implementation project(':meeting-sdk')
+    //implementation "io.github.agoraio-usecase.meeting:meeting-sdk:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:meeting-sdk']}"
+    implementation "io.github.agoraio-usecase.meeting:rtmtoken:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:rtmtoken']}"
+
+    // Kotlin basic dependencies
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext.dependencies['org.jetbrains.kotlin:kotlin-stdlib']}"
+    implementation "androidx.core:core-ktx:${rootProject.ext.dependencies['androidx.core:core-ktx']}"
+
+    // UI Component -- Android
+    implementation "androidx.appcompat:appcompat:${rootProject.ext.dependencies['androidx.appcompat:appcompat']}"
+    implementation "com.google.android.material:material:${rootProject.ext.dependencies['com.google.android.material:material']}"
+    implementation "androidx.constraintlayout:constraintlayout:${rootProject.ext.dependencies['androidx.constraintlayout:constraintlayout']}"
+    implementation "androidx.preference:preference:${rootProject.ext.dependencies['androidx.preference:preference']}"
+    implementation "androidx.preference:preference-ktx:${rootProject.ext.dependencies['androidx.preference:preference-ktx']}"
+    implementation "androidx.navigation:navigation-fragment-ktx:${rootProject.ext.dependencies['androidx.navigation:navigation-fragment-ktx']}"
+    implementation "androidx.navigation:navigation-ui-ktx:${rootProject.ext.dependencies['androidx.navigation:navigation-ui-ktx']}"
+
+    // UI Component -- Third part
+    implementation "io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:${rootProject.ext.dependencies['io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter']}"
+
+    // Test Framework
+    implementation "com.tencent.bugly:crashreport:${rootProject.ext.dependencies['com.tencent.bugly:crashreport']}"
+    implementation "com.tencent.bugly:nativecrashreport:${rootProject.ext.dependencies['com.tencent.bugly:nativecrashreport']}"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:${rootProject.ext.dependencies['com.squareup.leakcanary:leakcanary-android']}"
+
+}

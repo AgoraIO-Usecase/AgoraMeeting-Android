@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.agora.meeting.ui.module.main.render.tiled.TiledLayoutVM" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/main_render_bg" />
+
+        <FrameLayout
+            android:layout_width="60dp"
+            android:layout_height="24dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_round_black"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp">
+
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/page_tab_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                app:tabBackground="@drawable/sel_dot"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="0dp" />
+
+
+            <TextView
+                android:id="@+id/page_indicator_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:textColor="@color/global_text_color_white"
+                android:textSize="@dimen/global_text_size_small"
+                android:visibility="gone"
+                android:gravity="center"
+                tools:text="1/6"
+                tools:visibility="visible" />
+
+        </FrameLayout>
+
+
+    </FrameLayout>
+
+</layout>

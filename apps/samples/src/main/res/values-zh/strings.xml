@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cmm_next">下一步</string>
+
+    <string name="login_duration">时长(秒)</string>
+    <string name="login_max_people">最大人数</string>
+    <string name="login_in_out_limit_count">进出房间通知限制</string>
+
+    <string name="fragment_main">主视图</string>
+    <string name="fragment_main_tip">此示例演示如何使用MeetingUi显示主视图的功能。</string>
+    <string name="fragment_users">用户列表</string>
+    <string name="fragment_users_tip">此示例演示如何使用MeetingUi显示用户列表的功能。</string>
+    <string name="fragment_notify">通知列表</string>
+    <string name="fragment_notify_tip">此示例演示如何使用MeetingUi显示通知列表的功能。</string>
+    <string name="fragment_chat">聊天列表</string>
+    <string name="fragment_chat_tip">此示例演示如何使用MeetingUi显示聊天列表的功能。</string>
+    <string name="fragment_setting">设置</string>
+    <string name="fragment_setting_tip">此示例演示如何使用MeetingUi显示设置页面的功能。</string>
+    <string name="fragment_about">关于</string>
+    <string name="fragment_about_tip">此示例演示如何使用MeetingUi显示关于页面的功能。</string>
+    <string name="fragment_board">白板</string>
+    <string name="fragment_board_tip">此示例演示如何使用MeetingUi显示白板页面的功能。</string>
+    <string name="fragment_message">消息列表</string>
+    <string name="fragment_message_tip">此示例演示如何使用MeetingUi显示消息列表的功能。</string>
+    <string name="fragment_simple_web">内置WebView</string>
+    <string name="fragment_simple_web_tip">此示例演示如何使用MeetingUi显示内置WebView的功能。</string>
+
+    <string name="ui_controller_main_top">主视图顶部栏</string>
+    <string name="ui_controller_main_top_tip">此示例演示如何使用MeetingUi显示主视图顶部栏的功能。</string>
+    <string name="ui_controller_main_render">主视图画面</string>
+    <string name="ui_controller_main_render_tip">此示例演示如何使用MeetingUi显示主视图画面的功能。</string>
+    <string name="ui_controller_main_bottom">主视图底部栏</string>
+    <string name="ui_controller_main_bottom_tip">此示例演示如何使用MeetingUi显示主视图底部栏的功能。</string>
+    <string name="ui_controller_main_notify">主视图通知</string>
+    <string name="ui_controller_main_notify_tip">此示例演示如何使用MeetingUi显示主视图通知的功能。</string>
+    <string name="ui_controller_tiled_layout">平铺视图</string>
+    <string name="ui_controller_tiled_layout_tip">此示例演示如何使用MeetingUi显示平铺视图的功能。</string>
+    <string name="ui_controller_lecturer_layout">演讲者视图</string>
+    <string name="ui_controller_lecturer_layout_tip">此示例演示如何使用MeetingUi显示演讲者视图的功能。</string>
+    <string name="ui_controller_audio_layout">语音视图</string>
+    <string name="ui_controller_audio_layout_tip">此示例演示如何使用MeetingUi显示语音视图的功能。</string>
+    <string name="ui_controller_mix_layout">混合视图</string>
+    <string name="ui_controller_mix_layout_tip">此示例演示如何使用MeetingUi显示混合视图的功能。</string>
+
+
+
+
+</resources>
