@@ -114,8 +114,6 @@ dependencies {
     implementation "com.github.razerdp:BasePopup:${rootProject.ext.dependencies['com.github.razerdp:BasePopup']}"
 
     // Test Framework
-    implementation "com.tencent.bugly:crashreport:${rootProject.ext.dependencies['com.tencent.bugly:crashreport']}"
-    implementation "com.tencent.bugly:nativecrashreport:${rootProject.ext.dependencies['com.tencent.bugly:nativecrashreport']}"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${rootProject.ext.dependencies['com.squareup.leakcanary:leakcanary-android']}"
 
 }

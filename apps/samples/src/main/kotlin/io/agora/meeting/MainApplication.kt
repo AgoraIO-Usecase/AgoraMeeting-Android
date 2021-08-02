@@ -13,8 +13,7 @@ class MainApplication : Application() {
 
     private val meetingSDK by lazy {
         MeetingSDK(this,
-                MeetingConfig(getString(R.string.agora_app_id), logAll = true),
-                mapOf(Pair("host", getString(R.string.agora_app_host))))
+                MeetingConfig(getString(R.string.agora_app_id), logAll = true))
     }
 
     override fun onCreate() {

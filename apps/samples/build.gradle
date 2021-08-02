@@ -94,8 +94,6 @@ dependencies {
     implementation "io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:${rootProject.ext.dependencies['io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter']}"
 
     // Test Framework
-    implementation "com.tencent.bugly:crashreport:${rootProject.ext.dependencies['com.tencent.bugly:crashreport']}"
-    implementation "com.tencent.bugly:nativecrashreport:${rootProject.ext.dependencies['com.tencent.bugly:nativecrashreport']}"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${rootProject.ext.dependencies['com.squareup.leakcanary:leakcanary-android']}"
 
 }
