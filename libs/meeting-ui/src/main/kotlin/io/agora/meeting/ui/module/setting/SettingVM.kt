@@ -51,7 +51,12 @@ class SettingVM(
     }
 
     fun changeUserPermission(device: DeviceType, access: Boolean){
-        roomContext.changeUserPermission(device, access)
+        roomContext.changeUserPermission(device, access, failure = {
+            when(device){
+                DeviceType.Camera -> cameraAccess.value = roomContext.hasCameraAccess()
+                DeviceType.Mic -> micAccess.value = roomContext.hasMicAccess()
+            }
+        })
     }
 
     fun setUserInOutNotifyLimit(count: Int){

@@ -21,8 +21,8 @@ android {
         applicationId "io.agora.meeting.sample"
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode rootProject.ext.meeting.versionCode
-        versionName rootProject.ext.meeting.versionName
+        versionCode rootProject.ext.meeting_app.versionCode
+        versionName rootProject.ext.meeting_app.versionName
 
         vectorDrawables.useSupportLibrary = true
 
@@ -71,11 +71,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     // Meeting Component
-    implementation project(':meeting-sdk')
-    //implementation "io.github.agoraio-usecase.meeting:meeting-sdk:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:meeting-sdk']}"
-    implementation "io.github.agoraio-usecase.meeting:rtmtoken:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:rtmtoken']}"
+    implementation rootProject.findProject(':meeting-sdk') != null ? project(':meeting-sdk') : "io.github.agoraio-usecase.meeting:meeting-sdk:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:meeting-sdk']}"
+    implementation rootProject.findProject(':rtmtoken') != null ? project(':rtmtoken') : "io.github.agoraio-usecase.meeting:rtmtoken:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:rtmtoken']}"
 
     // Kotlin basic dependencies
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext.dependencies['org.jetbrains.kotlin:kotlin-stdlib']}"
@@ -94,6 +92,8 @@ dependencies {
     implementation "io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:${rootProject.ext.dependencies['io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter']}"
 
     // Test Framework
+    implementation "com.tencent.bugly:crashreport:${rootProject.ext.dependencies['com.tencent.bugly:crashreport']}"
+    implementation "com.tencent.bugly:nativecrashreport:${rootProject.ext.dependencies['com.tencent.bugly:nativecrashreport']}"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${rootProject.ext.dependencies['com.squareup.leakcanary:leakcanary-android']}"
 
 }

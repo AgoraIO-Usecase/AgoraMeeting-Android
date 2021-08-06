@@ -237,6 +237,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun launchMeetingSdk() {
+        if(!roomNameAutoEditText.check()){
+           return
+        }
+        if(!userNameAutoEditText.check()){
+           return
+        }
         loginBtn.showLoading()
         val userId = UUIDUtil.getUUID()
         meetingSDK.launch(

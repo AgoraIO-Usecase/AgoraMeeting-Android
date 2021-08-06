@@ -21,7 +21,7 @@ if (new File(maven_gradle_path).exists()) {
 // special the version using when publishing to maven
 // the group name is defined in setting.gradle
 project.group="io.github.agoraio-usecase.meeting"
-project.version="${safeExtGet('meeting', 'versionName', '1.0.0')}"
+project.version="${safeExtGet('meeting_sdk', 'versionName', '1.0.0')}"
 project.description = "AgoraMeetingSdk"
 project.ext.url = "https://bitbucket.agoralab.co/projects/ADUC/repos/cloudmeeting-android/browse/AgoraMeeting_Android"
 
@@ -33,8 +33,8 @@ android {
     defaultConfig {
         minSdkVersion safeExtGet('android', 'minSdkVersion', 19)
         targetSdkVersion safeExtGet('android', 'minSdkVersion', 29)
-        versionCode safeExtGet('meeting', 'versionCode', 1)
-        versionName safeExtGet('meeting', 'versionName', '1.0.0')
+        versionCode safeExtGet('meeting_sdk', 'versionCode', 1)
+        versionName safeExtGet('meeting_sdk', 'versionName', '1.0.0')
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -61,14 +61,13 @@ android {
 
 dependencies {
     // Meeting Basic Component
-    api project(':meeting-ui')
-    api "io.github.agoraio-usecase.meeting:meeting-context:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:meeting-context']}"
-    implementation "io.github.agoraio-usecase.meeting:meeting-core:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:meeting-core']}"
+    api "io.github.agoraio-usecase.meeting:meeting-context:${safeExtGet('dependencies', 'io.github.agoraio-usecase.meeting:meeting-context', '1.0.0')}"
+    api "io.github.agoraio-usecase.meeting:meeting-ui:${safeExtGet('dependencies', 'io.github.agoraio-usecase.meeting:meeting-ui', '1.0.0')}"
+    implementation "io.github.agoraio-usecase.meeting:meeting-core:${safeExtGet('dependencies', 'io.github.agoraio-usecase.meeting:meeting-core', '1.0.0')}"
 
     // Kotlin basic dependencies
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${safeExtGet('dependencies', 'org.jetbrains.kotlin:kotlin-stdlib', '1.4.21')}"
     implementation "androidx.core:core-ktx:${safeExtGet('dependencies', 'androidx.core:core-ktx', '1.3.2')}"
-
     // Test FrameWork
     testImplementation "junit:junit:${safeExtGet('dependencies', 'junit:junit', '4.13.1')}"
     androidTestImplementation "androidx.test.ext:junit:${safeExtGet('dependencies', 'androidx.test.ext:junit', '1.1.1')}"
