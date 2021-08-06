@@ -72,8 +72,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // Meeting Component
-    implementation rootProject.findProject(':meeting-sdk') != null ? project(':meeting-sdk') : "io.github.agoraio-usecase.meeting:meeting-sdk:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:meeting-sdk']}"
-    implementation rootProject.findProject(':rtmtoken') != null ? project(':rtmtoken') : "io.github.agoraio-usecase.meeting:rtmtoken:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:rtmtoken']}"
+    implementation project(':meeting-sdk')
+    //implementation "io.github.agoraio-usecase.meeting:meeting-sdk:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:meeting-sdk']}"
+    implementation "io.github.agoraio-usecase.meeting:rtmtoken:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:rtmtoken']}"
 
     // Kotlin basic dependencies
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext.dependencies['org.jetbrains.kotlin:kotlin-stdlib']}"
