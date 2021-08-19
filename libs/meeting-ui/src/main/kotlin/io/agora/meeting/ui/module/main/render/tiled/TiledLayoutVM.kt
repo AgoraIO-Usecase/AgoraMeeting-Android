@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import io.agora.meeting.context.MediaContext
 import io.agora.meeting.context.RenderContext
 import io.agora.meeting.context.UsersContext
+import io.agora.meeting.context.VideoTarget
 import io.agora.meeting.context.bean.*
 import io.agora.meeting.ui.base.BaseViewModel
 import io.agora.meeting.ui.base.Event
@@ -16,6 +17,7 @@ class TiledLayoutVM(
 ) : BaseViewModel() {
 
     private val workerThread = Executors.newSingleThreadExecutor()
+    private var workerRenderList = listOf<TiledRenderInfo>()
 
     val renderList = MutableLiveData<List<TiledRenderInfo>>()
     var statsDisplayEnable: Boolean = false
@@ -30,20 +32,20 @@ class TiledLayoutVM(
     private val renderEventHandler = object : RenderContext.RenderEventHandler {
         override fun onRenderInfoAdd(renders: List<RenderInfo>) {
             workerThread.execute {
-                val sort = sort(mutableListOf<TiledRenderInfo>().apply {
-                    renderList.value?.let { addAll(it) }
+                val list = mutableListOf<TiledRenderInfo>().apply {
+                    addAll(workerRenderList)
                     addAll(renders.map { TiledRenderInfo(it, judgeIsTopWhenAdd(it), Int.MAX_VALUE) })
-                })
-                renderList.postValue(sort)
+                }
+                workerRenderList = sort(list)
+                renderList.postValue(workerRenderList)
             }
         }
 
         override fun onRenderInfoRemoved(renders: List<RenderInfo>) {
-            renderList.value?.let { list ->
-                workerThread.execute {
-                    list.filter { !renders.map { it.streamId }.contains(it.renderInfo.streamId) }.let {
-                        renderList.postValue(it)
-                    }
+            workerThread.execute {
+                workerRenderList.filter { !renders.map { it.streamId }.contains(it.renderInfo.streamId) }.let {
+                    workerRenderList = it
+                    renderList.postValue(it)
                 }
             }
         }
@@ -51,7 +53,7 @@ class TiledLayoutVM(
         override fun onRenderInfoUpdate(renders: List<RenderInfo>) {
             renderList.value?.let {
                 workerThread.execute {
-                    val sort = sort(
+                    workerRenderList = sort(
                             mutableListOf<TiledRenderInfo>().apply {
                                 addAll(it.map { tri ->
                                     val ri = renders.find { it.streamId == tri.renderInfo.streamId }
@@ -63,7 +65,7 @@ class TiledLayoutVM(
                                 })
                             }
                     )
-                    renderList.postValue(sort)
+                    renderList.postValue(workerRenderList)
                 }
             }
         }
@@ -74,22 +76,20 @@ class TiledLayoutVM(
         renderContext.registerEventHandler(renderEventHandler)
 
         workerThread.execute {
-            val sort = sort(renderContext.getRenderInfoList().map {
+            workerRenderList = sort(renderContext.getRenderInfoList().map {
                 return@map TiledRenderInfo(it, judgeIsTopWhenAdd(it), Int.MAX_VALUE)
             })
-            renderList.postValue(sort)
+            renderList.postValue(workerRenderList)
         }
     }
 
     fun setTop(index: Int, isTop: Boolean) {
         workerThread.execute {
-            renderList.value?.let {
-                val list = mutableListOf<TiledRenderInfo>().apply { addAll(it) }
-                list.getOrNull(index)?.let {
-                    list[index] = TiledRenderInfo(it.renderInfo, isTop, if (isTop) -1 else Int.MAX_VALUE)
-                    val sort = sort(list)
-                    renderList.postValue(sort)
-                }
+            val list = mutableListOf<TiledRenderInfo>().apply { addAll(workerRenderList) }
+            list.getOrNull(index)?.let {
+                list[index] = TiledRenderInfo(it.renderInfo, isTop, if (isTop) -1 else Int.MAX_VALUE)
+                workerRenderList = sort(list)
+                renderList.postValue(workerRenderList)
             }
         }
     }
@@ -127,16 +127,14 @@ class TiledLayoutVM(
         usersContext.dealUserOperation(renderInfo.userInfo.userId, userOperation, failure = { failureEvent.postValue(Event(it)) })
     }
 
-    fun subscriptVideo(userId: String, streamId: String, view: Any, highStream: Boolean) {
-        mediaContext.subscriptVideo(userId, streamId, view, RenderMode.HIDDEN, highStream)
+    fun createVideoTarget(viewGroup: Any, layoutParams: Any) = mediaContext.createVideoTarget(viewGroup, layoutParams)
+
+    fun subscriptVideo(userId: String, streamId: String, target: VideoTarget, highStream: Boolean) {
+        mediaContext.subscriptVideo(userId, streamId, target, RenderMode.HIDDEN, highStream)
     }
 
     fun unSubscriptVideo(streamId: String) {
         mediaContext.unSubscriptVideo(streamId)
-    }
-
-    fun createTextureView(context: Any): Any? {
-        return mediaContext.createTextureView(context)
     }
 
     fun enableStats(renderId: Int, enable: Boolean) {

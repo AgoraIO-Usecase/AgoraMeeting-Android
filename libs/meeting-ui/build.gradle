@@ -25,7 +25,7 @@ if (new File(maven_gradle_path).exists()) {
 // special the version using when publishing to maven
 // the group name is defined in setting.gradle
 project.group="io.github.agoraio-usecase.meeting"
-project.version="${safeExtGet('meeting', 'versionName', '1.0.0')}"
+project.version="${safeExtGet('meeting_sdk', 'versionName', '1.0.0')}"
 project.description = "AgoraMeetingUi"
 project.ext.url = "https://bitbucket.agoralab.co/projects/ADUC/repos/cloudmeeting-android/browse/AgoraMeeting_Android/meeting-ui?at=refs%2Fheads%2Fdev%2Fandroid_210114"
 
@@ -36,8 +36,8 @@ android {
     defaultConfig {
         minSdkVersion safeExtGet('android', 'minSdkVersion', 19)
         targetSdkVersion safeExtGet('android', 'minSdkVersion', 29)
-        versionCode safeExtGet('meeting', 'versionCode', 1)
-        versionName safeExtGet('meeting', 'versionName', '1.0.0')
+        versionCode safeExtGet('meeting_sdk', 'versionCode', 1)
+        versionName safeExtGet('meeting_sdk', 'versionName', '1.0.0')
 
         vectorDrawables.useSupportLibrary = true
         consumerProguardFiles 'consumer-rules.pro'
@@ -78,8 +78,8 @@ android {
 
 dependencies {
     // Meeting Basic Component
-    implementation "io.github.agoraio-usecase.meeting:meeting-context:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:meeting-context']}"
-    implementation "io.github.agoraio-usecase.meeting:whiteboard:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:whiteboard']}"
+    implementation "io.github.agoraio-usecase.meeting:meeting-context:${safeExtGet('dependencies', 'io.github.agoraio-usecase.meeting:meeting-context', '1.0.0')}"
+    implementation "io.github.agoraio-usecase.meeting:whiteboard:${safeExtGet('dependencies', 'io.github.agoraio-usecase.meeting:whiteboard', '1.0.0')}"
 
     // Kotlin basic dependencies
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${safeExtGet('dependencies', 'org.jetbrains.kotlin:kotlin-stdlib', '1.4.21')}"

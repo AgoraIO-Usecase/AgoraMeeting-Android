@@ -1,9 +1,9 @@
-include ':meeting-ui'
-project(':meeting-ui').projectDir = new File(settingsDir, 'libs/meeting-ui')
-include ':meeting-sdk'
-project(':meeting-sdk').projectDir = new File(settingsDir, 'libs/meeting-sdk')
-
 include ':app'
 project(':app').projectDir = new File(settingsDir, 'apps/app')
 include ':samples'
 project(':samples').projectDir = new File(settingsDir, 'apps/samples')
+
+include ':meeting-ui'
+project(':meeting-ui').projectDir = new File(settingsDir, 'libs/meeting-ui')
+include ':meeting-sdk'
+project(':meeting-sdk').projectDir = new File(settingsDir, 'libs/meeting-sdk')

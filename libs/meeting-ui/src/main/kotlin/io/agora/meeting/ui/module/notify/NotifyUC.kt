@@ -59,14 +59,14 @@ class NotifyUC : BaseUiController<MessageNotifyLayoutBinding, NotifyVM>(
     }
 
 
-    inner class NotifyAdapter : ListAdapter<NotifyMessage, BindingViewHolder<MessageNotifyItemBinding>>(
-            object : DiffUtil.ItemCallback<NotifyMessage>() {
-                override fun areItemsTheSame(oldItem: NotifyMessage, newItem: NotifyMessage) =
-                        oldItem.messageId == newItem.messageId
+    inner class NotifyAdapter : ListAdapter<NotifyVM.NotifyMessageWrap, BindingViewHolder<MessageNotifyItemBinding>>(
+            object : DiffUtil.ItemCallback<NotifyVM.NotifyMessageWrap>() {
+                override fun areItemsTheSame(oldItem: NotifyVM.NotifyMessageWrap, newItem: NotifyVM.NotifyMessageWrap) =
+                        oldItem.message.messageId == newItem.message.messageId
 
-                override fun areContentsTheSame(oldItem: NotifyMessage, newItem: NotifyMessage) =
-                        oldItem.sender == newItem.sender
-                                && oldItem.isActive == newItem.isActive
+                override fun areContentsTheSame(oldItem: NotifyVM.NotifyMessageWrap, newItem: NotifyVM.NotifyMessageWrap) =
+                        oldItem.message.sender == newItem.message.sender
+                                && oldItem.message.isActive == newItem.message.isActive
 
             }
     ) {
@@ -77,7 +77,7 @@ class NotifyUC : BaseUiController<MessageNotifyLayoutBinding, NotifyVM>(
         override fun onBindViewHolder(holder: BindingViewHolder<MessageNotifyItemBinding>, position: Int) {
             val message = getItem(position)
             val resources = holder.binding.root.context.resources
-            val contentStr = when (message.type) {
+            val contentStr = when (message.message.type) {
                 NotifyMessageType.ADMIN_MUTE_ALL_MIC -> resources.getString(R.string.notify_toast_mute_all_mic)
                 NotifyMessageType.ADMIN_MUTE_ALL_CAM -> resources.getString(R.string.notify_toast_mute_all_cam)
                 NotifyMessageType.ACCESS_CHANGE_CAM_ON -> resources.getString(R.string.notify_toast_cam_permission_off)
@@ -86,20 +86,20 @@ class NotifyUC : BaseUiController<MessageNotifyLayoutBinding, NotifyVM>(
                 NotifyMessageType.ACCESS_CHANGE_MIC_OFF -> resources.getString(R.string.notify_toast_mic_permission_on)
                 NotifyMessageType.ADMIN_MUTE_YOUR_CAM -> resources.getString(R.string.notify_toast_admin_turn_off_cam)
                 NotifyMessageType.ADMIN_MUTE_YOUR_MIC -> resources.getString(R.string.notify_toast_admin_turn_off_mic)
-                NotifyMessageType.ADMIN_CHANGE_BE_HOST -> resources.getString(R.string.notify_toast_new_admin, message.sender?.userName)
+                NotifyMessageType.ADMIN_CHANGE_BE_HOST -> resources.getString(R.string.notify_toast_new_admin, message.message.sender?.userName)
                 NotifyMessageType.ADMIN_CHANGE_NO_HOST -> resources.getString(R.string.notify_toast_action_no_host)
-                NotifyMessageType.USER_CHANGE_ENTER -> resources.getString(R.string.notify_toast_enter_room, message.sender?.userName)
-                NotifyMessageType.USER_CHANGE_LEFT -> resources.getString(R.string.notify_toast_leave_room, message.sender?.userName)
-                NotifyMessageType.SCREEN_CHANGE_ON -> resources.getString(R.string.notify_toast_screen_start, message.sender?.userName)
+                NotifyMessageType.USER_CHANGE_ENTER -> resources.getString(R.string.notify_toast_enter_room, message.message.sender?.userName)
+                NotifyMessageType.USER_CHANGE_LEFT -> resources.getString(R.string.notify_toast_leave_room, message.message.sender?.userName)
+                NotifyMessageType.SCREEN_CHANGE_ON -> resources.getString(R.string.notify_toast_screen_start, message.message.sender?.userName)
                 NotifyMessageType.SCREEN_CHANGE_OFF -> resources.getString(R.string.notify_toast_screen_end)
-                NotifyMessageType.BOARD_CHANGE_ON -> resources.getString(R.string.notify_toast_whiteboard_start, message.sender?.userName)
-                NotifyMessageType.BOARD_CHANGE_OFF -> resources.getString(R.string.notify_toast_whiteboard_end, message.sender?.userName)
-                NotifyMessageType.BOARD_INTERACT_ON -> resources.getString(R.string.notify_toast_whiteboard_join, message.sender?.userName)
-                NotifyMessageType.USER_APPROVE_APPLY_CAM -> resources.getString(R.string.notify_popup_apply_video_title, message.sender?.userName)
-                NotifyMessageType.USER_APPROVE_APPLY_MIC -> resources.getString(R.string.notify_popup_apply_audio_title, message.sender?.userName)
-                NotifyMessageType.USER_APPROVE_ACCEPT_CAM -> resources.getString(R.string.notify_popup_accept_video_apply_title, message.sender?.userName)
-                NotifyMessageType.USER_APPROVE_ACCEPT_MIC -> resources.getString(R.string.notify_popup_accept_audio_apply_title, message.sender?.userName)
-                NotifyMessageType.NOTIFY_IN_OUT_OVER_MAX_LIMIT -> resources.getString(R.string.notify_toast_action_toast_over_max_num, message.payload as? Int)
+                NotifyMessageType.BOARD_CHANGE_ON -> resources.getString(R.string.notify_toast_whiteboard_start, message.message.sender?.userName)
+                NotifyMessageType.BOARD_CHANGE_OFF -> resources.getString(R.string.notify_toast_whiteboard_end, message.message.sender?.userName)
+                NotifyMessageType.BOARD_INTERACT_ON -> resources.getString(R.string.notify_toast_whiteboard_join, message.message.sender?.userName)
+                NotifyMessageType.USER_APPROVE_APPLY_CAM -> resources.getString(R.string.notify_popup_apply_video_title, message.message.sender?.userName)
+                NotifyMessageType.USER_APPROVE_APPLY_MIC -> resources.getString(R.string.notify_popup_apply_audio_title, message.message.sender?.userName)
+                NotifyMessageType.USER_APPROVE_ACCEPT_CAM -> resources.getString(R.string.notify_popup_accept_video_apply_title, message.message.sender?.userName)
+                NotifyMessageType.USER_APPROVE_ACCEPT_MIC -> resources.getString(R.string.notify_popup_accept_audio_apply_title, message.message.sender?.userName)
+                NotifyMessageType.NOTIFY_IN_OUT_OVER_MAX_LIMIT -> resources.getString(R.string.notify_toast_action_toast_over_max_num, message.message.payload as? Int)
                 NotifyMessageType.NOTIFY_IN_OUT_CLOSED -> resources.getString(R.string.notify_toast_action_toast_notify_mute_always)
                 NotifyMessageType.SYS_PERMISSION_MIC_DENIED -> resources.getString(R.string.notify_toast_action_mic_denied)
                 NotifyMessageType.SYS_PERMISSION_CAM_DENIED -> resources.getString(R.string.notify_toast_action_cam_denied)
@@ -114,44 +114,44 @@ class NotifyUC : BaseUiController<MessageNotifyLayoutBinding, NotifyVM>(
             // 处理显示样式及点击事件
             var layoutBg = R.drawable.bg_notify_white
             var textColor = R.color.global_text_color_black
-            if (message.type == NotifyMessageType.USER_APPROVE_APPLY_CAM
-                    || message.type == NotifyMessageType.USER_APPROVE_APPLY_MIC
+            if (message.message.type == NotifyMessageType.USER_APPROVE_APPLY_CAM
+                    || message.message.type == NotifyMessageType.USER_APPROVE_APPLY_MIC
             ) {
                 // 同意+倒计时
                 holder.binding.cdtv.isVisible = true
                 holder.binding.cdtv.setText(R.string.cmm_accept)
-                holder.binding.cdtv.isEnabled = message.isActive
-                if (message.isActive) {
+                holder.binding.cdtv.isEnabled = message.message.isActive
+                if (message.message.isActive) {
                     requireViewModel().getInOutLimit()
-                    val leftSecond: Int = when (message.type) {
+                    val leftSecond: Int = when (message.message.type) {
                         NotifyMessageType.USER_APPROVE_APPLY_CAM ->
-                            (requireViewModel().getCamApproveEffectiveSecond() - (TimeUtil.getSyncCurrentTimeMillis() - message.timestamp) / 1000).toInt()
+                            (requireViewModel().getCamApproveEffectiveSecond() - (TimeUtil.getSyncCurrentTimeMillis() - message.message.timestamp) / 1000).toInt()
                         else ->
-                            (requireViewModel().getMicApproveEffectiveSecond() - (TimeUtil.getSyncCurrentTimeMillis() - message.timestamp) / 1000).toInt()
+                            (requireViewModel().getMicApproveEffectiveSecond() - (TimeUtil.getSyncCurrentTimeMillis() - message.message.timestamp) / 1000).toInt()
                     }
                     if (leftSecond > 0) {
                         holder.binding.cdtv.startCount(leftSecond)
                         holder.binding.cdtv.setOnClickListener {
-                            requireViewModel().handleMsgEvent(message.messageId)
+                            requireViewModel().handleMsgEvent(message.message.messageId)
                         }
                     } else {
                         holder.binding.cdtv.isEnabled = false
                     }
                 }
-            } else if (message.type == NotifyMessageType.ADMIN_CHANGE_NO_HOST
+            } else if (message.message.type == NotifyMessageType.ADMIN_CHANGE_NO_HOST
             ) {
                 // 成为主持人
                 holder.binding.cdtv.isVisible = true
                 holder.binding.cdtv.setText(R.string.main_become_host)
-                holder.binding.cdtv.isEnabled = message.isActive
-                if (message.isActive) {
+                holder.binding.cdtv.isEnabled = message.message.isActive
+                if (message.message.isActive) {
                     holder.binding.cdtv.setOnClickListener {
-                        requireViewModel().handleMsgEvent(message.messageId)
+                        requireViewModel().handleMsgEvent(message.message.messageId)
                     }
                 }
 
-            } else if (message.type == NotifyMessageType.NOTIFY_IN_OUT_OVER_MAX_LIMIT
-                    || message.type == NotifyMessageType.NOTIFY_IN_OUT_CLOSED
+            } else if (message.message.type == NotifyMessageType.NOTIFY_IN_OUT_OVER_MAX_LIMIT
+                    || message.message.type == NotifyMessageType.NOTIFY_IN_OUT_CLOSED
             ) {
                 // 编辑
                 holder.binding.cdtv.isVisible = true
@@ -161,8 +161,8 @@ class NotifyUC : BaseUiController<MessageNotifyLayoutBinding, NotifyVM>(
                     // 跳转设置页面
                     settingClickListener?.invoke(it)
                 }
-            } else if (message.type == NotifyMessageType.SYS_PERMISSION_MIC_DENIED
-                    || message.type == NotifyMessageType.SYS_PERMISSION_CAM_DENIED
+            } else if (message.message.type == NotifyMessageType.SYS_PERMISSION_MIC_DENIED
+                    || message.message.type == NotifyMessageType.SYS_PERMISSION_CAM_DENIED
             ) {
                 // 编辑
                 holder.binding.cdtv.isVisible = true
@@ -189,7 +189,7 @@ class NotifyUC : BaseUiController<MessageNotifyLayoutBinding, NotifyVM>(
             // 是否显示时间
             holder.binding.tvTime.isVisible = message.showTime
             if (message.showTime) {
-                holder.binding.tvTime.text = DateUtils.formatDateTime(requireContext(), message.timestamp, DateUtils.FORMAT_SHOW_TIME)
+                holder.binding.tvTime.text = DateUtils.formatDateTime(requireContext(), message.message.timestamp, DateUtils.FORMAT_SHOW_TIME)
             }
         }
 

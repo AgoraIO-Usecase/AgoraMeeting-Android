@@ -4,6 +4,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.observe
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import io.agora.meeting.context.bean.RenderInfo
@@ -31,7 +32,7 @@ class TiledVPLayoutUC : BaseUiController<MainRenderTiledVpContainerBinding, Tile
     override fun onViewCreated() {
         super.onViewCreated()
         adapter = TiledPageAdapter()
-        requireBinding().viewpager2.offscreenPageLimit = 2
+        requireBinding().viewpager2.offscreenPageLimit = 1
         requireBinding().viewpager2.adapter = adapter
 
         TabLayoutMediator(requireBinding().pageTabLayout, requireBinding().viewpager2, object : TabLayoutMediator.TabConfigurationStrategy {
@@ -56,6 +57,50 @@ class TiledVPLayoutUC : BaseUiController<MainRenderTiledVpContainerBinding, Tile
                 val tabCount = requireBinding().pageTabLayout.tabCount
                 val tabIndex = tab?.position ?: 0
                 requireBinding().pageIndicatorText.text = "${tabIndex + 1}/$tabCount"
+            }
+        })
+        requireBinding().viewpager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            private var lastPositionOffset = 0f
+            private var lastPosition = 0
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+
+
+                val diff = positionOffset - lastPositionOffset
+                lastPositionOffset = positionOffset
+
+                var nextPosition = 0
+                var currPosition = 0
+                var nextVisiblePercent = 0f
+                var currVisiblePercent = 0f
+                if (diff >= 0) {
+                    nextPosition = position + 1
+                    currPosition = position
+                    nextVisiblePercent = positionOffset
+                    currVisiblePercent = 1 - positionOffset
+                } else {
+                    nextPosition = position
+                    currPosition = position + 1
+                    nextVisiblePercent = 1 - positionOffset
+                    currVisiblePercent = positionOffset
+                }
+
+                if(position > lastPosition){
+                    nextPosition = lastPosition
+                    currPosition = position
+                    nextVisiblePercent = positionOffset
+                    currVisiblePercent = 1 - positionOffset
+                }
+
+                lastPosition = position
+
+                val currFrag = requireFragmentManager().fragments.find { (it as? TiledVPPageFrag)?.index == currPosition } as? TiledVPPageFrag
+                val nextFrag = requireFragmentManager().fragments.find { (it as? TiledVPPageFrag)?.index == nextPosition } as? TiledVPPageFrag
+
+                currFrag?.onVisibleRectChanged(currVisiblePercent)
+                nextFrag?.onVisibleRectChanged(nextVisiblePercent)
+
             }
         })
     }

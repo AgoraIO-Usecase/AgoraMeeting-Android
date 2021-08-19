@@ -77,9 +77,6 @@ open class BaseUiController<Binding : ViewBinding, VM : BaseViewModel>(
     }
 
     fun destroy() {
-        binding = null
-        viewModel = null
-        lifecycleOwner = null
         onDestroy()
     }
 
@@ -127,6 +124,9 @@ open class BaseUiController<Binding : ViewBinding, VM : BaseViewModel>(
     }
 
     open fun onDestroy() {
+        binding = null
+        viewModel = null
+        lifecycleOwner = null
         dismissLoadingDialog()
         mLoadingDialog = null
     }

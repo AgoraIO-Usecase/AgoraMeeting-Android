@@ -20,8 +20,8 @@ android {
         applicationId "io.agora.meeting"
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode rootProject.ext.meeting.versionCode
-        versionName rootProject.ext.meeting.versionName
+        versionCode rootProject.ext.meeting_app.versionCode
+        versionName rootProject.ext.meeting_app.versionName
 
         vectorDrawables.useSupportLibrary = true
 
@@ -87,10 +87,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     // Meeting Component
-    //implementation project(':meeting-sdk')
-    implementation "io.github.agoraio-usecase.meeting:meeting-sdk:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:meeting-sdk']}"
+    implementation project(':meeting-sdk')
+    //implementation "io.github.agoraio-usecase.meeting:meeting-sdk:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:meeting-sdk']}"
     implementation "io.github.agoraio-usecase.meeting:rtmtoken:${rootProject.ext.maven_version['io.github.agoraio-usecase.meeting:rtmtoken']}"
     implementation "io.github.agoraio-usecase.tools:statistic:${rootProject.ext.maven_version['io.github.agoraio-usecase.tools:statistic']}"
 

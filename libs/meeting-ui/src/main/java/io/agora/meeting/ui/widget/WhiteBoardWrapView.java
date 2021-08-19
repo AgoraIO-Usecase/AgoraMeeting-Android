@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.herewhite.sdk.domain.Appliance;
@@ -47,10 +49,15 @@ public class WhiteBoardWrapView extends FrameLayout {
 
         Rect visibleRect = new Rect();
         getWindowVisibleDisplayFrame(visibleRect);
-        if(visibleRect.width() > visibleRect.height()){
+        boolean isLand = visibleRect.width() > visibleRect.height();
+        if(isLand){
             // 设为横条
             toolsRadioGroup.setOrientation(LinearLayout.HORIZONTAL);
             toolsLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+            FrameLayout.LayoutParams layoutParams = (LayoutParams) toolsLayout.getLayoutParams();
+            layoutParams.gravity = Gravity.BOTTOM;
+            toolsLayout.setLayoutParams(layoutParams);
         }else{
             // 设为竖条
             toolsRadioGroup.setOrientation(LinearLayout.VERTICAL);
@@ -68,7 +75,7 @@ public class WhiteBoardWrapView extends FrameLayout {
                 builder.initialColor(Color.argb(255, strokeColor[0], strokeColor[1], strokeColor[2]));
             }
 
-            builder.showAlphaSlider(false)
+            AlertDialog dialog = builder.showAlphaSlider(false)
                     .setPositiveButton(R.string.cmm_continue, (d, lastSelectedColor, allColors) ->
                             {
                                 int[] nColor = {Color.red(lastSelectedColor), Color.green(lastSelectedColor), Color.blue(lastSelectedColor)};
@@ -78,8 +85,19 @@ public class WhiteBoardWrapView extends FrameLayout {
                             }
                     )
                     .setNegativeButton(R.string.cmm_cancel, null)
-                    .build()
-                    .show();
+                    .build();
+
+            dialog.setOnShowListener(dialog1 -> {
+                if(isLand){
+                    // 确保横屏下显示完整
+                    View customView = dialog.getWindow().getDecorView().findViewById(R.id.custom);
+                    ViewGroup.LayoutParams layoutParams = customView.getLayoutParams();
+                    layoutParams.height = (int) (visibleRect.height() / 1.6);
+                    customView.setLayoutParams(layoutParams);
+                }
+            });
+
+            dialog.show();
         });
 
         Map<Integer, OnClickListener> clickMap = new HashMap<>();

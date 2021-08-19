@@ -1,10 +1,8 @@
 package io.agora.meeting.ui.module.main.render.lecturer
 
+import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
-import io.agora.meeting.context.BoardContext
-import io.agora.meeting.context.MediaContext
-import io.agora.meeting.context.RenderContext
-import io.agora.meeting.context.ScreenContext
+import io.agora.meeting.context.*
 import io.agora.meeting.context.bean.RenderInfo
 import io.agora.meeting.context.bean.RenderInfoType
 import io.agora.meeting.context.bean.RenderMode
@@ -19,6 +17,7 @@ class LecturerLayoutVM(
 ) : BaseViewModel() {
 
     private val workerThread = Executors.newSingleThreadExecutor()
+    private var workerSubRenderList = listOf<RenderInfo>()
 
     val mainRender = MutableLiveData<RenderInfo>()
     val subRenderList = MutableLiveData<List<RenderInfo>>()
@@ -79,17 +78,19 @@ class LecturerLayoutVM(
             return
         }
         workerThread.execute {
-            val newMainStream = subRenderList.value?.find { it.id == renderId } ?: return@execute
-            val newSubStreams = subRenderList.value?.filter { it.id != renderId } ?: return@execute
+            val newMainStream = workerSubRenderList.find { it.id == renderId } ?: return@execute
+            val newSubStreams = workerSubRenderList.filter { it.id != renderId } ?: return@execute
 
             mainRender.postValue(newMainStream)
-            subRenderList.postValue(mutableListOf<RenderInfo>().apply {
+            workerSubRenderList = mutableListOf<RenderInfo>().apply {
                 add(mainStream)
                 addAll(newSubStreams)
-            })
+            }
+            subRenderList.postValue(workerSubRenderList)
         }
     }
 
+    @WorkerThread
     private fun resetRenderList() {
         val list = renderContext.getRenderInfoList()
         if (list.isEmpty()) return
@@ -112,9 +113,11 @@ class LecturerLayoutVM(
         }
 
         mainRender.postValue(mainStream)
-        subRenderList.postValue(list.filter { it.streamId != mainStream?.streamId })
+        workerSubRenderList = list.filter { it.streamId != mainStream?.streamId }
+        subRenderList.postValue(workerSubRenderList)
     }
 
+    @WorkerThread
     private fun addRenderList(add: List<RenderInfo>) {
         if (add.isEmpty()) return
 
@@ -135,11 +138,13 @@ class LecturerLayoutVM(
         }
 
         val newList = mutableListOf<RenderInfo>()
-        subRenderList.value?.let { newList.addAll(it) }
+        newList.addAll(workerSubRenderList)
         newList.addAll(add)
+        workerSubRenderList = newList
         subRenderList.postValue(newList)
     }
 
+    @WorkerThread
     private fun removeRenderList(remove: List<RenderInfo>) {
         if (remove.isEmpty()) return
 
@@ -156,11 +161,13 @@ class LecturerLayoutVM(
         }
 
         val removeIds = remove.map { it.streamId }
-        subRenderList.postValue(subRenderList.value?.filter {
+        workerSubRenderList = workerSubRenderList.filter {
             return@filter !removeIds.contains(it.streamId)
-        })
+        }
+        subRenderList.postValue(workerSubRenderList)
     }
 
+    @WorkerThread
     private fun updateRenderList(update: List<RenderInfo>) {
         if (update.isEmpty()) return
 
@@ -176,13 +183,14 @@ class LecturerLayoutVM(
         }
 
         val newList = mutableListOf<RenderInfo>()
-        subRenderList.value?.let { newList.addAll(it) }
+        newList.addAll(workerSubRenderList)
         update.forEach { each ->
             newList.find { it.streamId == each.streamId }?.let {
                 val index = newList.indexOf(it)
                 newList[index] = each.copy()
             }
         }
+        workerSubRenderList = newList
         subRenderList.postValue(newList)
 
         update.find { it.id == statsRenderId }?.let {
@@ -197,12 +205,14 @@ class LecturerLayoutVM(
         workerThread.shutdownNow()
     }
 
-    fun subscriptVideo(userId: String, streamId: String, view: Any, highStream: Boolean, renderMode: RenderMode = RenderMode.HIDDEN) {
-        mediaContext.subscriptVideo(userId, streamId, view, renderMode, highStream)
+    fun createVideoTarget(viewGroup: Any, layoutParams: Any) = mediaContext.createVideoTarget(viewGroup, layoutParams)
+
+    fun subscriptVideo(userId: String, streamId: String, target: VideoTarget, highStream: Boolean, renderMode: RenderMode) {
+        mediaContext.subscriptVideo(userId, streamId, target,renderMode, highStream)
     }
 
-    fun createTextureView(context: Any): Any? {
-        return mediaContext.createTextureView(context)
+    fun unSubscriptVideo(streamId: String){
+        mediaContext.unSubscriptVideo(streamId)
     }
 
     fun enableStats(renderId: Int, enable: Boolean) {

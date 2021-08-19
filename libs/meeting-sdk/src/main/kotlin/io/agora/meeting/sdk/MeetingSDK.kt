@@ -9,14 +9,13 @@ import io.agora.meeting.context.bean.DeviceNetQuality
 import io.agora.meeting.context.bean.LaunchConfig
 import io.agora.meeting.context.bean.MeetingConfig
 import io.agora.meeting.core.MeetingCore
-import io.agora.meeting.core.annotaion.Keep
 import io.agora.meeting.ui.MeetingUi
 
 class MeetingSDK(
         private val context: Context,
         private val config: MeetingConfig,
         private val params: Map<String, String>? = null
-){
+) : Releasable {
 
     companion object {
         const val CORE_VERSION_CODE = MeetingCore.VERSION_CODE
@@ -68,7 +67,7 @@ class MeetingSDK(
         meetingCore.setOnExitListener(listener)
     }
 
-    fun release() {
+    override fun release() {
         Releasable.release(meetingUi)
         Releasable.release(meetingCore)
     }

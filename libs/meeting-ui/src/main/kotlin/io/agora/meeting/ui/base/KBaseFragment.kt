@@ -12,6 +12,9 @@ open class KBaseFragment : Fragment(), AppBarDelegate {
     @Volatile
     private var isSelected = false
 
+    @Volatile
+    private var isVisibleToUser = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireView().addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
@@ -56,6 +59,8 @@ open class KBaseFragment : Fragment(), AppBarDelegate {
         return isSelected
     }
 
+    fun isVisibleToUser() = isVisibleToUser
+
     protected fun <UC : BaseUiController<*, *>>
             createUiController(ucClass: Class<UC>) : UC {
         val constructor = ucClass.getConstructor()
@@ -88,6 +93,7 @@ open class KBaseFragment : Fragment(), AppBarDelegate {
 
     protected open fun onUserVisibleChanged(visible: Boolean) {
         uiControllers.forEach { it.visibleToUser = visible }
+        isVisibleToUser = visible
     }
 
     protected open fun onSelectedChanged(selected: Boolean) {

@@ -16,12 +16,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_whiteboard_tool"
+        android:layout_marginTop="@dimen/whiteboard_tools_margin_top"
         android:layout_marginBottom="@dimen/whiteboard_tools_margin_bottom"
         android:layout_marginStart="@dimen/whiteboard_tools_margin_start"
         android:visibility="gone"
+        tools:visibility="visible"
         android:orientation="vertical"
-        android:gravity="center"
-        android:layout_gravity="start|center_vertical">
+        android:gravity="center">
 
         <RadioGroup
             android:id="@+id/rg_tools"

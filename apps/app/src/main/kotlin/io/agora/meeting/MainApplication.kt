@@ -17,6 +17,7 @@ class MainApplication : Application() {
                 MeetingConfig(getString(R.string.agora_app_id), logAll = true))
     }
 
+
     companion object {
 
         @JvmStatic

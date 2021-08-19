@@ -12,7 +12,8 @@
     <!-- whiteboard -->
     <dimen name="whiteboard_tool_padding">3dp</dimen>
     <dimen name="whiteboard_tools_margin_start">10dp</dimen>
-    <dimen name="whiteboard_tools_margin_bottom">120dp</dimen>
+    <dimen name="whiteboard_tools_margin_top">30dp</dimen>
+    <dimen name="whiteboard_tools_margin_bottom">15dp</dimen>
 
 
     <!-- MeetingFragment -->
