@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import io.agora.meeting.context.VideoTarget
 import io.agora.meeting.context.bean.RenderInfo
 import io.agora.meeting.context.bean.UserOperation
 import io.agora.meeting.ui.R
@@ -30,7 +31,7 @@ import io.agora.meeting.ui.util.UIUtil
 import kotlin.math.min
 
 class TiledVPPageFrag(
-        private val index: Int,
+        val index: Int,
         private val viewModel: TiledLayoutVM,
         private val onItemClickListener: ((View?, RenderInfo) -> Unit)?
 ) : KBaseFragment() {
@@ -48,6 +49,8 @@ class TiledVPPageFrag(
             UIUtil.openRVAnimator(it)
         }
     }
+
+    private var lastVisiblePercent = 0f
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -95,7 +98,7 @@ class TiledVPPageFrag(
         val toIndex = min(list.size, (index + 1) * PAGE_ROW * PAGE_COLUMN)
         if (fromIndex < list.size && fromIndex < toIndex) {
             adapter?.submitList(list.subList(fromIndex, toIndex).map {
-                it.copy(isVisible = isSelected())
+                it.copy(isVisible = lastVisiblePercent > 0f)
             }, run)
         }
     }
@@ -116,6 +119,17 @@ class TiledVPPageFrag(
         } else {
             cancelOpenRvAnimator()
             UIUtil.closeRVtAnimator(viewBinding?.recyclerView)
+            updateListAdapter(viewModel.renderList.value)
+        }
+    }
+
+    fun onVisibleRectChanged(percent: Float) {
+        val lastPercent = lastVisiblePercent
+        lastVisiblePercent = percent
+
+        if (lastPercent == 0f && percent > 0) {
+            updateListAdapter(viewModel.renderList.value)
+        } else if (percent == 0f) {
             updateListAdapter(viewModel.renderList.value)
         }
     }
@@ -182,41 +196,20 @@ class TiledVPPageFrag(
 
     private fun bindMediaStream(info: TiledLayoutVM.TiledRenderInfo, container: ViewGroup) {
         val renderInfo = info.renderInfo
-        container.tag = null
-        if (renderInfo.hasVideo) {
-            val streamId = renderInfo.streamId
-            var textureView = container.findViewById<TextureView>(TEXTURE_VIEW_ID)
-            if (textureView != null) {
-                if (textureView.isAvailable) {
-                    val tag = textureView.tag
-                    if (streamId == tag) {
-                        // return if the SurfaceView has bound this uid
-                        if (info.isVisible) {
-                            viewModel.subscriptVideo(renderInfo.userInfo.userId, renderInfo.streamId, textureView, true)
-                        } else {
-                            viewModel.unSubscriptVideo(renderInfo.streamId)
-                        }
-                        return
-                    }
-                }
-            }
-            val createTextureView = viewModel.createTextureView(container.context)
-            textureView = if (createTextureView == null) null else createTextureView as TextureView
-            if (textureView == null) {
-                container.removeAllViews()
-                return
-            }
-            textureView.tag = streamId // bind uid
-            textureView.id = TEXTURE_VIEW_ID
-            container.removeAllViews()
-            container.addView(textureView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-            if (info.isVisible) {
-                viewModel.subscriptVideo(renderInfo.userInfo.userId, renderInfo.streamId, textureView, true)
-            } else {
-                viewModel.unSubscriptVideo(renderInfo.streamId)
-            }
+        if (renderInfo.hasVideo && info.isVisible) {
+            val target = (container.tag as? VideoTarget) ?: viewModel.createVideoTarget(
+                    container,
+                    ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+            )
+            container.tag = target
+            viewModel.subscriptVideo(renderInfo.userInfo.userId, renderInfo.streamId,
+                    target, true)
         } else {
-            container.removeAllViews()
+            container.tag = null
+            viewModel.unSubscriptVideo(renderInfo.streamId)
         }
     }
 
@@ -264,8 +257,8 @@ class TiledVPPageFrag(
             AvatarUtil.loadCircleAvatar(viewHolder.binding.root, viewHolder.binding.ivAvatar, renderInfo.userInfo.userName)
 
             // 点击视频后变成演讲者视图
-            val child = viewHolder.binding.flVideo.getChildAt(0)
-            child?.setOnClickListener { v: View? ->
+            val child = viewHolder.binding.flVideo.getChildAt(0) ?: viewHolder.binding.flVideo
+            child.setOnClickListener { v: View? ->
                 onItemClickListener?.invoke(v, renderInfo)
             }
 
@@ -273,7 +266,7 @@ class TiledVPPageFrag(
             if (viewModel.statsDisplayEnable) {
                 updateStatsLayout(viewHolder.binding.statsContainer, renderInfo, viewModel.isStatsEnable(renderInfo.id))
             }
-            child?.setOnLongClickListener {
+            child.setOnLongClickListener {
                 if (!viewModel.statsDisplayEnable) return@setOnLongClickListener false
 
                 val enable = !viewModel.isStatsEnable(renderInfo.id)

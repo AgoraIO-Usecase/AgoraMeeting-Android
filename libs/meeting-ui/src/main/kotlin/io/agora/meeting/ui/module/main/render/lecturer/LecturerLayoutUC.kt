@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import io.agora.meeting.context.VideoTarget
+import io.agora.meeting.context.VideoTargetAttachListener
 import io.agora.meeting.context.bean.RenderInfo
 import io.agora.meeting.context.bean.RenderInfoType
 import io.agora.meeting.context.bean.RenderMode
@@ -33,8 +35,8 @@ class LecturerLayoutUC : BaseUiController<MainRenderLecturerContainerBinding, Le
         MainRenderLecturerContainerBinding::class.java,
         LecturerLayoutVM::class.java
 ) {
-    private val TEXTURE_VIEW_ID = View.generateViewId()
     private var adapter: LecturerListAdapter? = null
+    private var lecturerUpdateRun : Runnable? = null
 
     var boardClickListener: ((View) -> Unit)? = null
     var tiledLayoutClickListener: ((View) -> Unit)? = null
@@ -79,8 +81,30 @@ class LecturerLayoutUC : BaseUiController<MainRenderLecturerContainerBinding, Le
                 }
             })
             list.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            //list.layoutManager = object: LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false){
+            //    override fun onLayoutCompleted(state: RecyclerView.State?) {
+            //        super.onLayoutCompleted(state)
+            //        unSubscriptInVisibleVideo()
+            //    }
+            //}
             adapter = LecturerListAdapter()
             list.adapter = adapter
+
+            list.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        unSubscriptInVisibleVideo()
+                    }
+                }
+
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (dx == 0 && dy == 0) {
+                        unSubscriptInVisibleVideo()
+                    }
+                }
+            })
 
             ivTiledSwitch.setOnClickListener { v -> tiledLayoutClickListener?.invoke(v) }
 
@@ -98,6 +122,35 @@ class LecturerLayoutUC : BaseUiController<MainRenderLecturerContainerBinding, Le
         }
     }
 
+    private fun unSubscriptInVisibleVideo(){
+        val recyclerView = binding?.list ?: return
+        val itemCount = adapter?.itemCount ?: return
+        val manager = recyclerView.layoutManager
+        if (manager is LinearLayoutManager) {
+            val firstPosition = manager.findFirstVisibleItemPosition()
+            val lastPosition = manager.findLastVisibleItemPosition()
+            val visibleRange = mutableListOf<Int>()
+            for (i in firstPosition..lastPosition) {
+                val view = manager.findViewByPosition(i) ?: continue
+                val rect = Rect()
+                val isVisible = view.getGlobalVisibleRect(rect)
+                if (isVisible) {
+                    visibleRange.add(i)
+                }
+            }
+
+            for(i in 0..itemCount){
+                val item = adapter?.currentList?.getOrNull(i) ?: continue
+                if(!visibleRange.contains(i)){
+                    viewModel?.unSubscriptVideo(item.streamId)
+                }else{
+                    val view = manager.findViewByPosition(i) ?: continue
+                    bindMediaStream(item, view.findViewById(R.id.fl_video))
+                }
+            }
+        }
+    }
+
     override fun onViewModelBind() {
         super.onViewModelBind()
         requireViewModel().mainRenderId = mainRenderId
@@ -108,12 +161,17 @@ class LecturerLayoutUC : BaseUiController<MainRenderLecturerContainerBinding, Le
             requireBinding().speaker = lecturerInfo
             requireBinding().executePendingBindings()
 
-            // 显示视频
-            when (lecturerInfo.type) {
-                RenderInfoType.Board -> bindBoardStream(lecturerInfo, requireBinding().flVideo)
-                RenderInfoType.ScreenSharing -> if (lecturerInfo.isMe) bindLocalScreenStream(requireBinding().flVideo) else bindScaleMediaStream(lecturerInfo, requireBinding().flVideo)
-                RenderInfoType.Media -> bindScaleMediaStream(lecturerInfo, requireBinding().flVideo)
+            requireBinding().flVideo.removeCallbacks(lecturerUpdateRun)
+            lecturerUpdateRun = Runnable {
+                binding ?: return@Runnable
+                // 显示视频
+                when (lecturerInfo.type) {
+                    RenderInfoType.Board -> bindBoardStream(lecturerInfo, requireBinding().flVideo)
+                    RenderInfoType.ScreenSharing -> if (lecturerInfo.isMe) bindLocalScreenStream(requireBinding().flVideo) else bindScaleMediaStream(lecturerInfo, requireBinding().flVideo)
+                    RenderInfoType.Media -> bindScaleMediaStream(lecturerInfo, requireBinding().flVideo)
+                }
             }
+
 
             // 头像
             AvatarUtil.loadCircleAvatar(requireBinding().root, requireBinding().ivAvatar, lecturerInfo.userInfo.userName)
@@ -137,12 +195,21 @@ class LecturerLayoutUC : BaseUiController<MainRenderLecturerContainerBinding, Le
 
         }
         requireViewModel().subRenderList.observe(requireLifecycleOwner()) { list ->
-            adapter?.submitList(list)
+            requireBinding().ivTiledSwitch.isVisible = !requireViewModel().isSharing()
+            adapter?.submitList(list){
+                binding?.flVideo?.postDelayed(lecturerUpdateRun, 500)
+            }
         }
 
         requireViewModel().statsRenderInfo.observe(requireLifecycleOwner()) {
             updateStatsLayout(it)
         }
+    }
+
+    override fun onDestroy() {
+        requireBinding().flVideo.removeCallbacks(lecturerUpdateRun)
+        lecturerUpdateRun = null
+        super.onDestroy()
     }
 
     private fun updateLecturerStats() {
@@ -221,12 +288,14 @@ class LecturerLayoutUC : BaseUiController<MainRenderLecturerContainerBinding, Le
             }
 
             // 点击事件
-            val child = holder.binding.flVideo.getChildAt(0)
-            child?.setOnClickListener { v: View? ->
-                requireViewModel().mainRenderId = item.id
+            val child = holder.binding.flVideo.getChildAt(0) ?: holder.binding.flVideo
+            child.setOnClickListener { v: View? ->
+                if (item.hasVideo) {
+                    requireViewModel().mainRenderId = item.id
+                }
             }
 
-            child?.setOnLongClickListener {
+            child.setOnLongClickListener {
                 if (!statsDisplayEnable) return@setOnLongClickListener false
                 if (requireViewModel().statsRenderId != item.id) {
                     requireViewModel().statsRenderId = item.id
@@ -271,75 +340,71 @@ class LecturerLayoutUC : BaseUiController<MainRenderLecturerContainerBinding, Le
     }
 
     private fun bindScaleMediaStream(renderInfo: RenderInfo, container: ViewGroup) {
-
+        val streamId = renderInfo.streamId
         if (renderInfo.hasVideo) {
-            val streamId = renderInfo.streamId
-            var gestureLayer: GestureLayer? = null
-            var textureView = container.findViewById<TextureView>(TEXTURE_VIEW_ID)
-            if (textureView != null) {
-                if (textureView.isAvailable) {
-                    val textureViewTag = textureView.tag
-                    if (streamId == textureViewTag) {
-                        requireViewModel().subscriptVideo(renderInfo.userInfo.userId, streamId, textureView, true, RenderMode.FIT)
-                        return
-                    }
+            val target = (container.tag as? VideoTarget)?: requireViewModel().createVideoTarget(container,
+                            ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+            container.tag = target
+            target.attachListener = object: VideoTargetAttachListener {
+                override fun onRenderViewAttached(view: Any) {
+                    if (view !is TextureView) return
+                    if( view.parent?.parent === container) return
+
+                    (view.parent as? ViewGroup)?.removeView(view)
+                    container.removeAllViews()
+
+                    val gestureLayer = GestureLayer(container.context, object : GestureVideoTouchAdapterImpl(view) {
+                        override fun isFullScreen(): Boolean {
+                            return true
+                        }
+                    })
+
+                    // add gestureLayer to container
+                    container.addView(gestureLayer.container, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+
+                    gestureLayer.container.addView(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                }
+
+                override fun onRenderViewDetached() {
+
                 }
             }
-            val createTextureView = requireViewModel().createTextureView(container.context)
-            textureView = if (createTextureView == null) null else createTextureView as TextureView
-            if (textureView == null) {
-                container.removeAllViews()
-                return
-            }
-            textureView.id = TEXTURE_VIEW_ID
-            textureView.tag = streamId
-            gestureLayer = GestureLayer(container.context, object : GestureVideoTouchAdapterImpl(textureView) {
-                override fun isFullScreen(): Boolean {
-                    return true
-                }
-            })
 
-            // add textureView to gestureLayer
-            gestureLayer.container.addView(textureView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-
-            // add gestureLayer to container
-            container.removeAllViews()
-            container.addView(gestureLayer.container, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-            requireViewModel().subscriptVideo(renderInfo.userInfo.userId, streamId, textureView, true, RenderMode.FIT)
+            requireViewModel().subscriptVideo(renderInfo.userInfo.userId, streamId,
+                    target,
+                    true,
+                    RenderMode.FIT)
         } else {
-            container.removeAllViews()
+            requireViewModel().unSubscriptVideo(streamId)
+            container.tag = null
         }
     }
 
-    private fun bindMediaStream(renderInfo: RenderInfo, container: ViewGroup) {
-
-        container.tag = null
+    private fun bindMediaStream(renderInfo: RenderInfo, container: ViewGroup, onAttached: (()->Unit)? = null, onDetached: (()->Unit)? = null) {
+        val streamId = renderInfo.streamId
         if (renderInfo.hasVideo) {
-            val streamId = renderInfo.streamId
-            var textureView = container.findViewById<TextureView>(TEXTURE_VIEW_ID)
-            if (textureView != null) {
-                if (textureView.isAvailable) {
-                    val tag = textureView.tag
-                    if (streamId == tag) {
-                        // return if the SurfaceView has bound this uid
-                        requireViewModel().subscriptVideo(renderInfo.userInfo.userId, renderInfo.streamId, textureView, false)
-                        return
-                    }
+            val target = (container.tag as? VideoTarget)?:requireViewModel().createVideoTarget(container,
+                    ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+            container.tag = target
+            target.attachListener = object: VideoTargetAttachListener{
+                override fun onRenderViewAttached(view: Any) {
+                    onAttached?.invoke()
+                }
+
+                override fun onRenderViewDetached() {
+                    onDetached?.invoke()
                 }
             }
-            val createTextureView = requireViewModel().createTextureView(container.context)
-            textureView = if (createTextureView == null) null else createTextureView as TextureView
-            if (textureView == null) {
-                container.removeAllViews()
-                return
-            }
-            textureView.tag = streamId // bind uid
-            textureView.id = TEXTURE_VIEW_ID
-            container.removeAllViews()
-            container.addView(textureView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-            requireViewModel().subscriptVideo(renderInfo.userInfo.userId, renderInfo.streamId, textureView, false)
+
+            requireViewModel().subscriptVideo(
+                    renderInfo.userInfo.userId,
+                    streamId,
+                    target,
+                    false,
+                    RenderMode.HIDDEN)
         } else {
-            container.removeAllViews()
+            (container.tag as? VideoTarget)?.release()
+            container.tag = null
         }
     }
 }
