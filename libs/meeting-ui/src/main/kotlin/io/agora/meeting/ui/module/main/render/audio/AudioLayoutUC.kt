@@ -55,6 +55,9 @@ class AudioLayoutUC : BaseUiController<MainRenderAudioContainerBinding, AudioLay
     override fun onViewModelBind() {
         super.onViewModelBind()
         requireViewModel().renderInfoList.observe(requireLifecycleOwner()) {
+            it.forEach {
+                requireViewModel().subscriptAudio(it.streamId)
+            }
             adapter?.notifyDataSetChanged()
         }
     }

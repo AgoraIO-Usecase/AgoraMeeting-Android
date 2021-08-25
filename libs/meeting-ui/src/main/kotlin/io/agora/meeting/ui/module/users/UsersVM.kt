@@ -4,6 +4,7 @@ import android.text.TextUtils
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
 import io.agora.meeting.context.UsersContext
+import io.agora.meeting.context.bean.ConnectState
 import io.agora.meeting.context.bean.UserDetailInfo
 import io.agora.meeting.context.bean.UserOperation
 import io.agora.meeting.context.bean.UserRole
@@ -23,6 +24,10 @@ class UsersVM(
 
     private val usersEventHandler = object : UsersContext.UsersEventHandler {
 
+        override fun onLocalConnectStateChanged(state: ConnectState) {
+
+        }
+
         override fun onUserListChanged(userInfoList: List<UserDetailInfo>) {
             memberNum.postValue(userInfoList.size)
             workerExecutor.submit {
@@ -32,6 +37,10 @@ class UsersVM(
 
         override fun onKickedOut() {
 
+        }
+
+        override fun onUserPropertiesUpdate(userId: String, full: Map<String, Any>?) {
+            // do nothing
         }
     }
 

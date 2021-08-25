@@ -1,16 +1,16 @@
 package io.agora.meeting.ui.module.main.render.audio
 
 import androidx.lifecycle.MutableLiveData
+import io.agora.meeting.context.MediaContext
 import io.agora.meeting.context.RenderContext
 import io.agora.meeting.context.bean.RenderInfo
 import io.agora.meeting.context.bean.RenderInfoType
 import io.agora.meeting.ui.base.BaseViewModel
 import java.util.concurrent.Executors
-import kotlin.math.ceil
-import kotlin.math.min
 
 class AudioLayoutVM(
-        private val renderContext: RenderContext
+        private val renderContext: RenderContext,
+        private val mediaContext: MediaContext
 ) : BaseViewModel() {
 
     private val workerThread = Executors.newSingleThreadExecutor()
@@ -54,6 +54,13 @@ class AudioLayoutVM(
         return data.filter { it.type == RenderInfoType.Media }
     }
 
+    fun subscriptAudio(streamId: String) {
+        mediaContext.subscriptAudio(streamId)
+    }
+
+    fun unSubscriptAudio(streamId: String) {
+        mediaContext.unSubscriptVideo(streamId)
+    }
 
     override fun onCleared() {
         super.onCleared()

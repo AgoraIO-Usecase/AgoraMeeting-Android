@@ -224,4 +224,12 @@ class LecturerLayoutVM(
     }
 
     fun isStatsEnable(renderId: Int) = renderContext.isRenderStatsEnable(renderId)
+
+    fun subscriptAudio(streamId: String) {
+        mediaContext.subscriptAudio(streamId)
+    }
+
+    fun unSubscriptAudio(streamId: String) {
+        mediaContext.unSubscriptVideo(streamId)
+    }
 }

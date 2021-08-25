@@ -17,10 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.preference.PreferenceManager
 import io.agora.meeting.context.OnExitListener
-import io.agora.meeting.context.bean.CameraDirection
-import io.agora.meeting.context.bean.DeviceNetQuality
-import io.agora.meeting.context.bean.LaunchConfig
-import io.agora.meeting.context.bean.SavedConfig
+import io.agora.meeting.context.bean.*
 import io.agora.meeting.databinding.LayoutRatingBinding
 import io.agora.meeting.http.VersionCheck
 import io.agora.meeting.ui.framework.MainFragmentArgs
@@ -69,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private val onExitListener = object : OnExitListener {
-        override fun onExit(saved: SavedConfig) {
+        override fun onExit(saved: RoomCache) {
             Log.d("LoginActivity", "onExitListener onExit saved=$saved")
             showRateDialog(saved)
         }
@@ -103,7 +100,7 @@ class LoginActivity : AppCompatActivity() {
         resetNetQualityCheck()
     }
 
-    private fun showRateDialog(saved: SavedConfig) {
+    private fun showRateDialog(saved: RoomCache) {
         val binding: LayoutRatingBinding = LayoutRatingBinding.inflate(layoutInflater)
         bindRatingBarAndTv(binding.rbCallQuality, binding.tvCallQuality)
         bindRatingBarAndTv(binding.rbFunctionCompleteness, binding.tvFunctionCompleteness)
@@ -245,9 +242,10 @@ class LoginActivity : AppCompatActivity() {
         }
         loginBtn.showLoading()
         val userId = UUIDUtil.getUUID()
+        val roomId = CryptoUtil.md5(roomNameAutoEditText.text)!!
         meetingSDK.launch(
                 LaunchConfig(
-                        CryptoUtil.md5(roomNameAutoEditText.text)!!,
+                        roomId,
                         roomNameAutoEditText.text,
                         roomPwdAutoEditText.text,
                         userId,
@@ -258,7 +256,8 @@ class LoginActivity : AppCompatActivity() {
                         cameraSwitch.isChecked,
                         micSwitch.isChecked,
                         CameraDirection.Front,
-                        PreferenceManager.getDefaultSharedPreferences(this).getInt(getString(R.string.key_notify_max_num), 50)
+                        PreferenceManager.getDefaultSharedPreferences(this).getInt(getString(R.string.key_notify_max_num), 50),
+                        mapOf(Pair("roomId", roomId), Pair("userId", userId))
                 ),
                 {
                     loginBtn.showButtonText()

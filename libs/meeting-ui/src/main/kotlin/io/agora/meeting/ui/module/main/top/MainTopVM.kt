@@ -4,6 +4,7 @@ import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import io.agora.meeting.context.*
 import io.agora.meeting.context.bean.*
+import io.agora.meeting.ui.BuildConfig
 import io.agora.meeting.ui.base.BaseViewModel
 import io.agora.meeting.ui.base.Event
 import io.agora.meeting.ui.util.TimeUtil
@@ -62,6 +63,9 @@ class MainTopVM(
     }
 
     fun switchCamera() {
+        if (BuildConfig.DEBUG) {
+            usersContext.updateLocalUserProperties(mapOf(Pair("111", "222"), Pair("aaa", "bbb")))
+        }
         mediaContext.switchLocalCamera()
     }
 
