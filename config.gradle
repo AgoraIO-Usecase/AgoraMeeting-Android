@@ -5,8 +5,8 @@ ext {
             'versionName' : "2.1.0"
     ]
     meeting_sdk = [
-            'versionCode' : 103,
-            'versionName' : "1.0.2.1"
+            'versionCode' : 105,
+            'versionName' : "1.0.3.1"
     ]
     android = [
             'compileSdkVersion': 30,

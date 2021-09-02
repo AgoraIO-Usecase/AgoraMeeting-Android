@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import io.agora.meeting.context.OnExitListener
 import io.agora.meeting.context.bean.CameraDirection
+import io.agora.meeting.context.bean.ExistReason
 import io.agora.meeting.context.bean.LaunchConfig
 import io.agora.meeting.context.bean.RoomCache
 import io.agora.meeting.ui.util.CryptoUtil
@@ -34,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     private val onExitListener = object: OnExitListener {
-        override fun onExit(saved: RoomCache) {
+        override fun onExit(saved: RoomCache, reason: ExistReason) {
             Log.d("LoginActivity", "onExitListener onExit saved=$saved")
             ToastUtil.showShort("Meeting Exit")
         }
