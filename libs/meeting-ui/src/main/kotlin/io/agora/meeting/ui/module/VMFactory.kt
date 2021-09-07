@@ -33,7 +33,7 @@ class VMFactory(private val contextPool: ContextPool) : ViewModelProvider.Factor
             SettingVM::class.java -> SettingVM(contextPool.roomContext, contextPool.platformContext, contextPool.usersContext, contextPool.messagesContext)
             TiledLayoutVM::class.java -> TiledLayoutVM(contextPool.renderContext, contextPool.mediaContext, contextPool.usersContext)
             LecturerLayoutVM::class.java -> LecturerLayoutVM(contextPool.renderContext, contextPool.mediaContext, contextPool.boardContext, contextPool.screenContext)
-            AudioLayoutVM::class.java -> AudioLayoutVM(contextPool.renderContext)
+            AudioLayoutVM::class.java -> AudioLayoutVM(contextPool.renderContext, contextPool.mediaContext)
             MixLayoutVM::class.java -> MixLayoutVM(contextPool.renderContext)
             else -> throw IllegalArgumentException("Unknown ViewModel class: $modelClass")
         } as T

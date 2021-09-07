@@ -63,8 +63,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:maxLength="50"
-                app:minLength="3"
+                app:maxLength="100"
+                app:minLength="1"
                 app:tipEmpty="@string/login_tip_room_name_empty"
                 app:tipOver="@string/login_tip_room_name_over"
                 app:tipShort="@string/login_tip_room_name_short" />
@@ -94,8 +94,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/aet_room_pwd"
-                app:maxLength="20"
-                app:minLength="3"
+                app:maxLength="100"
+                app:minLength="1"
                 app:tipEmpty="@string/login_tip_user_name_empty"
                 app:tipOver="@string/login_tip_user_name_over"
                 app:tipShort="@string/login_tip_user_name_short" />

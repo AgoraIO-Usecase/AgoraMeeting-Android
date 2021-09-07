@@ -5,8 +5,8 @@ ext {
             'versionName' : "2.1.0"
     ]
     meeting_sdk = [
-            'versionCode' : 101,
-            'versionName' : "1.0.1"
+            'versionCode' : 105,
+            'versionName' : "1.0.3.1"
     ]
     android = [
             'compileSdkVersion': 30,
@@ -19,8 +19,8 @@ ext {
             "versionName" : "1.0.1"
     ]
     agora_rte = [
-            "versionCode" : 1,
-            "versionName" : "1.0.1-alpha"
+            "versionCode" : 3,
+            "versionName" : "1.0.2-alpha"
     ]
     maven_version = [
             "io.github.agoraio-usecase.common:rte"              : rootProject.ext.agora_rte.versionName,
@@ -31,6 +31,7 @@ ext {
             "io.github.agoraio-usecase.meeting:meeting-core"    : rootProject.ext.meeting_sdk.versionName,
             "io.github.agoraio-usecase.meeting:meeting-ui"      : rootProject.ext.meeting_sdk.versionName,
             "io.github.agoraio-usecase.meeting:meeting-sdk"     : rootProject.ext.meeting_sdk.versionName,
+            "io.github.agoraio-usecase.meeting:meeting-context" : rootProject.ext.meeting_sdk.versionName,
     ]
     dependencies = [
             'junit:junit'                                   : '4.13.1',

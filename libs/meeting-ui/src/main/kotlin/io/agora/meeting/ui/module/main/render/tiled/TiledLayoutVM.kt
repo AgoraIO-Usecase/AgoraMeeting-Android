@@ -137,6 +137,14 @@ class TiledLayoutVM(
         mediaContext.unSubscriptVideo(streamId)
     }
 
+    fun subscriptAudio(streamId: String) {
+        mediaContext.subscriptAudio(streamId)
+    }
+
+    fun unSubscriptAudio(streamId: String) {
+        mediaContext.unSubscriptVideo(streamId)
+    }
+
     fun enableStats(renderId: Int, enable: Boolean) {
         renderContext.enableRenderStats(renderId, enable)
     }

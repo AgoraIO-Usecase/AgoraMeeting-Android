@@ -193,8 +193,13 @@ class LecturerLayoutUC : BaseUiController<MainRenderLecturerContainerBinding, Le
                 true
             }
 
+            requireViewModel().subscriptAudio(lecturerInfo.streamId)
         }
         requireViewModel().subRenderList.observe(requireLifecycleOwner()) { list ->
+            list.forEach {
+                requireViewModel().subscriptAudio(it.streamId)
+            }
+
             requireBinding().ivTiledSwitch.isVisible = !requireViewModel().isSharing()
             adapter?.submitList(list){
                 binding?.flVideo?.postDelayed(lecturerUpdateRun, 500)

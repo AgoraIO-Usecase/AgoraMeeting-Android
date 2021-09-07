@@ -10,8 +10,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import io.agora.meeting.context.OnExitListener
 import io.agora.meeting.context.bean.CameraDirection
+import io.agora.meeting.context.bean.ExistReason
 import io.agora.meeting.context.bean.LaunchConfig
-import io.agora.meeting.context.bean.SavedConfig
+import io.agora.meeting.context.bean.RoomCache
 import io.agora.meeting.ui.util.CryptoUtil
 import io.agora.meeting.ui.util.ToastUtil
 import io.agora.meeting.ui.widget.LoadingButton
@@ -34,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     private val onExitListener = object: OnExitListener {
-        override fun onExit(saved: SavedConfig) {
+        override fun onExit(saved: RoomCache, reason: ExistReason) {
             Log.d("LoginActivity", "onExitListener onExit saved=$saved")
             ToastUtil.showShort("Meeting Exit")
         }
@@ -63,9 +64,10 @@ class LoginActivity : AppCompatActivity() {
         loginBtn.showLoading()
         val userId = CryptoUtil.md5(userNameEditText.text.toString())!!
 
+        val roomId = CryptoUtil.md5(roomNameEditText.text.toString())!!
         meetingSDK.launch(
                 LaunchConfig(
-                        CryptoUtil.md5(roomNameEditText.text.toString())!!,
+                        roomId,
                         roomNameEditText.text.toString(),
                         roomPwdEditText.text.toString(),
                         userId,
@@ -76,7 +78,8 @@ class LoginActivity : AppCompatActivity() {
                         cameraSwitch.isChecked,
                         micSwitch.isChecked,
                         CameraDirection.Front,
-                        inOutLimitEditText.text.toString().toInt()
+                        inOutLimitEditText.text.toString().toInt(),
+                        mapOf(Pair("roomId", roomId), Pair("userId", userId))
                 ),
                 {
                     loginBtn.showButtonText()

@@ -109,6 +109,9 @@ class TiledVPLayoutUC : BaseUiController<MainRenderTiledVpContainerBinding, Tile
         super.onViewModelBind()
         requireViewModel().statsDisplayEnable = statsDisplayEnable
         requireViewModel().renderList.observe(requireLifecycleOwner()) {
+            it.forEach {
+                requireViewModel().subscriptAudio(it.renderInfo.streamId)
+            }
             adapter?.notifyDataSetChanged()
         }
     }

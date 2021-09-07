@@ -61,9 +61,10 @@ android {
 
 dependencies {
     // Meeting Basic Component
-    api "io.github.agoraio-usecase.meeting:meeting-context:${safeExtGet('dependencies', 'io.github.agoraio-usecase.meeting:meeting-context', '1.0.0')}"
-    api "io.github.agoraio-usecase.meeting:meeting-ui:${safeExtGet('dependencies', 'io.github.agoraio-usecase.meeting:meeting-ui', '1.0.0')}"
-    implementation "io.github.agoraio-usecase.meeting:meeting-core:${safeExtGet('dependencies', 'io.github.agoraio-usecase.meeting:meeting-core', '1.0.0')}"
+    api project(':meeting-ui')
+    //api "io.github.agoraio-usecase.meeting:meeting-ui:${safeExtGet('maven_version', 'io.github.agoraio-usecase.meeting:meeting-ui', '1.0.0')}"
+    api "io.github.agoraio-usecase.meeting:meeting-core:${safeExtGet('maven_version', 'io.github.agoraio-usecase.meeting:meeting-core', '1.0.0')}"
+    api "io.github.agoraio-usecase.meeting:meeting-context:${safeExtGet('maven_version', 'io.github.agoraio-usecase.meeting:meeting-context', '1.0.0')}"
 
     // Kotlin basic dependencies
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${safeExtGet('dependencies', 'org.jetbrains.kotlin:kotlin-stdlib', '1.4.21')}"

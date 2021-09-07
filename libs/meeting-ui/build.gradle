@@ -78,8 +78,8 @@ android {
 
 dependencies {
     // Meeting Basic Component
-    implementation "io.github.agoraio-usecase.meeting:meeting-context:${safeExtGet('dependencies', 'io.github.agoraio-usecase.meeting:meeting-context', '1.0.0')}"
-    implementation "io.github.agoraio-usecase.meeting:whiteboard:${safeExtGet('dependencies', 'io.github.agoraio-usecase.meeting:whiteboard', '1.0.0')}"
+    implementation "io.github.agoraio-usecase.meeting:meeting-context:${safeExtGet('maven_version', 'io.github.agoraio-usecase.meeting:meeting-context', '1.0.0')}"
+    implementation "io.github.agoraio-usecase.meeting:whiteboard:${safeExtGet('maven_version', 'io.github.agoraio-usecase.meeting:whiteboard', '1.0.0')}"
 
     // Kotlin basic dependencies
     implementation "org.jetbrains.kotlin:kotlin-stdlib:${safeExtGet('dependencies', 'org.jetbrains.kotlin:kotlin-stdlib', '1.4.21')}"
