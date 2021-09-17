@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <Button
+            android:id="@+id/btn_update_user_props"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/btn_get_user_props"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="获取用户属性"/>
+
+        <Button
+            android:id="@+id/btn_update_room_props"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/btn_get_room_props"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="获取房间属性"/>
+
+        <Button
+            android:id="@+id/btn_send_private_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="发送私聊消息"/>
+
+
+    </LinearLayout>
+
+</ScrollView>

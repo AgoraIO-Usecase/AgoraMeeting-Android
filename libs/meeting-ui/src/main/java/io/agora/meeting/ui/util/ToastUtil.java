@@ -2,6 +2,7 @@ package io.agora.meeting.ui.util;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -34,10 +35,14 @@ public class ToastUtil {
     }
 
     public static void showShort(@Nullable String text) {
-        if(TextUtils.isEmpty(text)){
+        if (TextUtils.isEmpty(text)) {
             return;
         }
-        sHandler.post(() -> showCustomToast(text, Toast.LENGTH_SHORT));
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            showCustomToast(text, Toast.LENGTH_SHORT);
+        } else {
+            sHandler.post(() -> showCustomToast(text, Toast.LENGTH_SHORT));
+        }
     }
 
     public static void showLong(@StringRes int resId) {
@@ -52,19 +57,24 @@ public class ToastUtil {
         if(TextUtils.isEmpty(text)){
             return;
         }
-        sHandler.post(() -> showCustomToast(text, Toast.LENGTH_LONG));
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            showCustomToast(text, Toast.LENGTH_LONG);
+        } else {
+            sHandler.post(() -> showCustomToast(text, Toast.LENGTH_LONG));
+        }
     }
 
-    private static void showCustomToast(String text, int duration){
-        if(sToast == null){
-            Context context = getContext();
-            sToast = Toast.makeText(context, "", duration);
-            sToast.setGravity(Gravity.CENTER, 0, 0);
-            View view = LayoutInflater.from(context).inflate(R.layout.layout_toast, null);
-            sToast.setView(view);
+    private static void showCustomToast(String text, int duration) {
+        Context context = getContext();
+        if (sToast != null) {
+            sToast.cancel();
         }
+        sToast = Toast.makeText(context, "", duration);
+        sToast.setGravity(Gravity.CENTER, 0, 0);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_toast, null);
+        sToast.setView(view);
         sToast.setDuration(duration);
-        ((TextView)sToast.getView().findViewById(android.R.id.message)).setText(text);
+        ((TextView) sToast.getView().findViewById(android.R.id.message)).setText(text);
         sToast.show();
     }
 

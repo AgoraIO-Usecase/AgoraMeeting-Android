@@ -24,6 +24,8 @@
     <string name="fragment_message_tip">此示例演示如何使用MeetingUi显示消息列表的功能。</string>
     <string name="fragment_simple_web">内置WebView</string>
     <string name="fragment_simple_web_tip">此示例演示如何使用MeetingUi显示内置WebView的功能。</string>
+    <string name="fragment_api_test">API测试</string>
+    <string name="fragment_api_test_tip">此示例演示如何使用API</string>
 
     <string name="ui_controller_main_top">主视图顶部栏</string>
     <string name="ui_controller_main_top_tip">此示例演示如何使用MeetingUi显示主视图顶部栏的功能。</string>

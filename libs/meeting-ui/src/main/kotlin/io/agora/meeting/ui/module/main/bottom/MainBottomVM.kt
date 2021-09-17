@@ -48,6 +48,9 @@ class MainBottomVM(
 
         }
 
+        override fun onPrivateChatMessageReceived(content: String, fromUser: UserInfo) {
+
+        }
     }
 
     init {

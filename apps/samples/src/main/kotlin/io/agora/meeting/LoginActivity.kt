@@ -36,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
 
     private val onExitListener = object: OnExitListener {
         override fun onExit(saved: RoomCache, reason: ExistReason) {
-            Log.d("LoginActivity", "onExitListener onExit saved=$saved")
+            Log.d("LoginActivity", "onExitListener onExit saved=$saved, existReason=$reason")
             ToastUtil.showShort("Meeting Exit")
         }
     }
@@ -63,8 +63,8 @@ class LoginActivity : AppCompatActivity() {
     private fun launchMeetingSdk() {
         loginBtn.showLoading()
         val userId = CryptoUtil.md5(userNameEditText.text.toString())!!
-
         val roomId = CryptoUtil.md5(roomNameEditText.text.toString())!!
+
         meetingSDK.launch(
                 LaunchConfig(
                         roomId,
@@ -79,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
                         micSwitch.isChecked,
                         CameraDirection.Front,
                         inOutLimitEditText.text.toString().toInt(),
-                        mapOf(Pair("roomId", roomId), Pair("userId", userId))
+                        mapOf()
                 ),
                 {
                     loginBtn.showButtonText()

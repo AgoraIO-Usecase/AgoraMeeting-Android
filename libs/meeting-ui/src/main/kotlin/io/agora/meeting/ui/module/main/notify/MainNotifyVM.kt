@@ -6,6 +6,7 @@ import io.agora.meeting.context.MessagesContext
 import io.agora.meeting.context.bean.ChatMessage
 import io.agora.meeting.context.bean.DeviceType
 import io.agora.meeting.context.bean.NotifyMessage
+import io.agora.meeting.context.bean.UserInfo
 import io.agora.meeting.ui.base.BaseViewModel
 import io.agora.meeting.ui.base.Event
 import java.util.*
@@ -30,8 +31,12 @@ class MainNotifyVM(
         }
 
         override fun onNotifyMessagesUpdated(messages: List<NotifyMessage>) {
-            notifyMsgList.value = takeNotifyMsg(messages)
+            notifyMsgList.postValue(takeNotifyMsg(messages))
             startTiming()
+        }
+
+        override fun onPrivateChatMessageReceived(content: String, fromUser: UserInfo) {
+
         }
 
     }

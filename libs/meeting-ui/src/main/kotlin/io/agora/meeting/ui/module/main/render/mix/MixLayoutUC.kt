@@ -65,7 +65,7 @@ class MixLayoutUC : BaseUiController<MainRenderMixContainerBinding, MixLayoutVM>
     private fun replaceFragment(fragment: Fragment) {
         requireFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment)
-                .commit()
+                .commitAllowingStateLoss()
     }
 
 
