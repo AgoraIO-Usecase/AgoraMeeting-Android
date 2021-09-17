@@ -8,6 +8,7 @@ import io.agora.meeting.context.UsersContext
 import io.agora.meeting.context.bean.DeviceType
 import io.agora.meeting.context.bean.RoomClosedReason
 import io.agora.meeting.context.bean.RoomJoinState
+import io.agora.meeting.context.bean.UserInfo
 import io.agora.meeting.ui.base.BaseViewModel
 import io.agora.meeting.ui.base.Event
 
@@ -37,6 +38,10 @@ class SettingVM(
                 DeviceType.Mic -> micAccess.postValue(access)
                 DeviceType.Camera -> cameraAccess.postValue(access)
             }
+        }
+
+        override fun onFlexRoomPropertiesChanged(properties: Map<String, String>?, fromUser: UserInfo?) {
+
         }
 
     }

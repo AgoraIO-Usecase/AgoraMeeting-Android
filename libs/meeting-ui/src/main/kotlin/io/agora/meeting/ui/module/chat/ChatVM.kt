@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import io.agora.meeting.context.MessagesContext
 import io.agora.meeting.context.bean.ChatMessage
 import io.agora.meeting.context.bean.NotifyMessage
+import io.agora.meeting.context.bean.UserInfo
 import io.agora.meeting.ui.base.BaseViewModel
 import java.util.concurrent.Executors
 import kotlin.math.ceil
@@ -23,6 +24,10 @@ class ChatVM(
         }
 
         override fun onNotifyMessagesUpdated(messages: List<NotifyMessage>) {
+
+        }
+
+        override fun onPrivateChatMessageReceived(content: String, fromUser: UserInfo) {
 
         }
 

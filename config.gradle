@@ -5,8 +5,8 @@ ext {
             'versionName' : "2.1.0"
     ]
     meeting_sdk = [
-            'versionCode' : 105,
-            'versionName' : "1.0.3.1"
+            'versionCode' : 112,
+            'versionName' : "1.1.2.2"
     ]
     android = [
             'compileSdkVersion': 30,
@@ -19,8 +19,8 @@ ext {
             "versionName" : "1.0.1"
     ]
     agora_rte = [
-            "versionCode" : 3,
-            "versionName" : "1.0.2-alpha"
+            "versionCode" : 4,
+            "versionName" : "1.0.4-alpha"
     ]
     maven_version = [
             "io.github.agoraio-usecase.common:rte"              : rootProject.ext.agora_rte.versionName,

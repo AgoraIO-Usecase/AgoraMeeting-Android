@@ -2,6 +2,8 @@ package io.agora.meeting.ui.framework
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +20,7 @@ import io.agora.meeting.ui.module.root.RootUC
 class MainFragment : KBaseFragment() {
 
     private var navigation: MainNavigation? = null
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     private val mainTopUC by lazy { createUiController(MainTopUC::class.java) }
     private val mainBottomUC by lazy {
@@ -53,7 +56,7 @@ class MainFragment : KBaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.main_fragment, container, false).apply {
             initViewBinding(this)
-            postDelayed({ delayInitViewBinding(this) }, 400)
+            mainHandler.postDelayed({ delayInitViewBinding(this) }, 400)
         }
     }
 
@@ -62,7 +65,7 @@ class MainFragment : KBaseFragment() {
         initToolBar()
         initArguments()
         bindViewModels()
-        view.postDelayed(this::delayBindViewModels, 500)
+        mainHandler.postDelayed(this::delayBindViewModels, 500)
     }
 
     private fun initArguments() {
@@ -112,6 +115,7 @@ class MainFragment : KBaseFragment() {
     }
 
     override fun onDetach() {
+        mainHandler.removeCallbacksAndMessages(null)
         if (navigation == requireActivity()) {
             navigation = null
         }

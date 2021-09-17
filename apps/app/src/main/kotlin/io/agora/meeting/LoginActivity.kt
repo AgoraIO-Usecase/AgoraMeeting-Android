@@ -67,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
 
     private val onExitListener = object : OnExitListener {
         override fun onExit(saved: RoomCache, reason: ExistReason) {
-            Log.d("LoginActivity", "onExitListener onExit saved=$saved")
+            Log.d("LoginActivity", "onExitListener onExit saved=$saved, existReason=$reason")
             showRateDialog(saved)
         }
     }

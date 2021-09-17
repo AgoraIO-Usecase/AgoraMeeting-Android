@@ -25,6 +25,8 @@
     <string name="fragment_message_tip">This example demonstrates how to use MeetingUi to display the message list function.</string>
     <string name="fragment_simple_web">SimpleWebPage</string>
     <string name="fragment_simple_web_tip">This example demonstrates how to use MeetingUi to display the simple web page function.</string>
+    <string name="fragment_api_test">APITest</string>
+    <string name="fragment_api_test_tip">This example demonstrates how to use context api.</string>
 
     <string name="ui_controller_main_top">MainTop</string>
     <string name="ui_controller_main_top_tip">This example demonstrates how to use MeetingUi to display the top layout of main view.</string>

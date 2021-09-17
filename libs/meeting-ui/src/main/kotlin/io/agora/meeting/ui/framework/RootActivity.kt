@@ -31,7 +31,11 @@ class RootActivity : AppCompatActivity(),
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        super.onCreate(null)
+        if(savedInstanceState != null){
+            finish()
+            return
+        }
         setContentView(R.layout.root_activity)
         setStatusBarTransparent()
         window.decorView.keepScreenOn = true

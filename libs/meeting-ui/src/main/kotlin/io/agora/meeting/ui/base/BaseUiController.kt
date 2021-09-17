@@ -109,11 +109,12 @@ open class BaseUiController<Binding : ViewBinding, VM : BaseViewModel>(
     open fun onViewCreated() {}
 
     open fun onViewModelBind() {
-        viewModel?.failureEvent?.observe(lifecycleOwner!!) { event ->
+        val owner = lifecycleOwner ?: return
+        viewModel?.failureEvent?.observe(owner) { event ->
             val error = event.getContentIfNotHandled()?: return@observe
             ToastUtil.showShort(error.message)
         }
-        viewModel?.loadingEvent?.observe(lifecycleOwner!!) {
+        viewModel?.loadingEvent?.observe(owner) {
             val show = it.getContentIfNotHandled() ?: return@observe
             if (show) {
                 showLoadingDialog()
