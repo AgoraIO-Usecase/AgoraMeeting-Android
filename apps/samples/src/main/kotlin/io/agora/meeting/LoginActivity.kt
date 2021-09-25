@@ -79,7 +79,8 @@ class LoginActivity : AppCompatActivity() {
                         micSwitch.isChecked,
                         CameraDirection.Front,
                         inOutLimitEditText.text.toString().toInt(),
-                        mapOf()
+                        mapOf(),
+                        mapOf(Pair("roomName", "长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名"))
                 ),
                 {
                     loginBtn.showButtonText()
