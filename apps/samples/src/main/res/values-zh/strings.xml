@@ -5,6 +5,7 @@
     <string name="login_duration">时长(秒)</string>
     <string name="login_max_people">最大人数</string>
     <string name="login_in_out_limit_count">进出房间通知限制</string>
+    <string name="login_max_host">最大主持人数</string>
 
     <string name="fragment_main">主视图</string>
     <string name="fragment_main_tip">此示例演示如何使用MeetingUi显示主视图的功能。</string>

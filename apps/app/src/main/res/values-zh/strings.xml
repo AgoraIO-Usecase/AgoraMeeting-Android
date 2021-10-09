@@ -25,4 +25,7 @@
     <string name="rating_comment_hint">分享您的体验心得</string>
     <string name="rating_start">%d星</string>
 
+    <!-- 设置 -->
+    <string name="setting_max_host">最大主持人数</string>
+
 </resources>

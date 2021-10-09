@@ -3,5 +3,6 @@
 
     <string name="key_about" translatable="false">about</string>
     <string name="key_show_privacy_terms" translatable="false">show_privacy_terms</string>
+    <string name="key_max_host" translatable="false">max_host</string>
 
 </resources>

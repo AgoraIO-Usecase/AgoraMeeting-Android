@@ -258,7 +258,8 @@ class LoginActivity : AppCompatActivity() {
                         CameraDirection.Front,
                         PreferenceManager.getDefaultSharedPreferences(this).getInt(getString(R.string.key_notify_max_num), 50),
                         mapOf(Pair("roomId", roomId), Pair("userId", userId)),
-                        mapOf()
+                        mapOf(),
+                        PreferenceManager.getDefaultSharedPreferences(this).getInt(getString(R.string.key_max_host), 3)
                 ),
                 {
                     loginBtn.showButtonText()

@@ -157,6 +157,25 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_max_host"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/login_max_host"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/til_in_out_limit_count">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tiet_max_host"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:inputType="number"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <TextView
                 android:id="@+id/tv_tips"
                 android:layout_width="wrap_content"
@@ -166,7 +185,7 @@
                 android:textColor="@color/global_text_color_gray"
                 android:textSize="@dimen/global_text_size_small"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/til_in_out_limit_count" />
+                app:layout_constraintTop_toBottomOf="@+id/til_max_host" />
 
             <TextView
                 android:id="@+id/tv_camera"

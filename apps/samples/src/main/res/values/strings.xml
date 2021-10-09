@@ -6,6 +6,7 @@
     <string name="login_duration">Duration(s)</string>
     <string name="login_max_people">Maximum number of people</string>
     <string name="login_in_out_limit_count">In/out notify limit</string>
+    <string name="login_max_host">Max host</string>
 
     <string name="fragment_main">MainView</string>
     <string name="fragment_main_tip">This example demonstrates how to use MeetingUi to display the main view function.</string>
