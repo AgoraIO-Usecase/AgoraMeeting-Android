@@ -11,3 +11,4 @@
 
 -keep class androidx.**{*;}
 -keep class io.agora.meeting.**{*;}
+-keep class com.hyphenate.chat.**{*;}

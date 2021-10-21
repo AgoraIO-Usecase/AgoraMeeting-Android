@@ -144,7 +144,7 @@ public class AutoEditText extends FrameLayout {
         return mEt.getText().toString();
     }
 
-    public void setRightIconClickListener(View.OnClickListener clickListener) {
+    public void setRightIconClickListener(OnClickListener clickListener) {
         mBtnIcon.setOnClickListener(clickListener);
     }
 
@@ -207,7 +207,7 @@ public class AutoEditText extends FrameLayout {
     }
 
     @BindingAdapter("rightIconClick")
-    public static void _setRightIconClickListener(AutoEditText view, View.OnClickListener onClickListener) {
+    public static void _setRightIconClickListener(AutoEditText view, OnClickListener onClickListener) {
         if (view != null) {
             view.mBtnIcon.setOnClickListener(onClickListener);
         }

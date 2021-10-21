@@ -257,7 +257,9 @@ class LoginActivity : AppCompatActivity() {
                         micSwitch.isChecked,
                         CameraDirection.Front,
                         PreferenceManager.getDefaultSharedPreferences(this).getInt(getString(R.string.key_notify_max_num), 50),
-                        mapOf(Pair("roomId", roomId), Pair("userId", userId))
+                        mapOf(Pair("roomId", roomId), Pair("userId", userId)),
+                        mapOf(),
+                        PreferenceManager.getDefaultSharedPreferences(this).getInt(getString(R.string.key_max_host), 3)
                 ),
                 {
                     loginBtn.showButtonText()

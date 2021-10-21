@@ -31,6 +31,7 @@ class LoginActivity : AppCompatActivity() {
     private val cameraSwitch by lazy { findViewById<Switch>(R.id.sw_camera) }
     private val micSwitch by lazy { findViewById<Switch>(R.id.sw_mic) }
     private val screenSwitch by lazy { findViewById<Switch>(R.id.sw_screen) }
+    private val maxHostEditText by lazy { findViewById<EditText>(R.id.tiet_max_host) }
     private val meetingSDK by lazy { MainApplication.getMeetingSDK(this) }
 
 
@@ -79,7 +80,9 @@ class LoginActivity : AppCompatActivity() {
                         micSwitch.isChecked,
                         CameraDirection.Front,
                         inOutLimitEditText.text.toString().toInt(),
-                        mapOf()
+                        mapOf(),
+                        mapOf(Pair("roomName", "长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名长房间名")),
+                        maxHost = maxHostEditText.text.toString().toIntOrNull() ?: 3
                 ),
                 {
                     loginBtn.showButtonText()

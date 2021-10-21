@@ -55,7 +55,7 @@ public class WhiteBoardWrapView extends FrameLayout {
             toolsRadioGroup.setOrientation(LinearLayout.HORIZONTAL);
             toolsLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-            FrameLayout.LayoutParams layoutParams = (LayoutParams) toolsLayout.getLayoutParams();
+            LayoutParams layoutParams = (LayoutParams) toolsLayout.getLayoutParams();
             layoutParams.gravity = Gravity.BOTTOM;
             toolsLayout.setLayoutParams(layoutParams);
         }else{

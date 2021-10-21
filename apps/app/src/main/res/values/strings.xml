@@ -29,4 +29,7 @@
     <string name="rating_comment_hint">Share your experience</string>
     <string name="rating_start">%dStart</string>
 
+    <!-- 设置 -->
+    <string name="setting_max_host">Max Host</string>
+
 </resources>

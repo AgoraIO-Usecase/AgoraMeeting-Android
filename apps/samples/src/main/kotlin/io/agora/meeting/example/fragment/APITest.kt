@@ -27,7 +27,7 @@ class APITest: BaseFragment() {
 
     private var userTestIndex = 0
     private val userPropertiesTestList = listOf(
-            mapOf(Pair("111", "222"), Pair("aaa", "bbb")),
+            mapOf(Pair("111", "222"), Pair("aaa", "bbb"), Pair("ccc", 111), Pair("666", 111.2), Pair("test", TestBean("2345"))),
             mapOf(Pair("333", "555"), Pair("ccc", "bbb")),
             mapOf(Pair("111", "333"), Pair("aaa", "ddd")),
     )
@@ -180,4 +180,8 @@ class APITest: BaseFragment() {
         contextPool?.messagesContext?.unRegisterEventHandler(messageEventHandler)
         contextPool = null
     }
+
+    data class TestBean(
+            val userId: String
+    )
 }

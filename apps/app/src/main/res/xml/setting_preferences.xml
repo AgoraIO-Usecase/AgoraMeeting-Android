@@ -46,6 +46,12 @@
             app:iconSpaceReserved="false"
             app:title="@string/setting_turn_off_notify" />
 
+        <io.agora.meeting.ui.widget.OptionsDialogPreference
+            android:key="@string/key_max_host"
+            android:layout="@layout/layout_preference_edittext"
+            app:iconSpaceReserved="false"
+            app:title="@string/setting_max_host" />
+
         <Preference
             android:key="@string/key_about"
             android:layout="@layout/layout_preference_image"
